@@ -1,0 +1,21 @@
+body,
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    height: 900px;
+    width: 1200px;
+}
+
+.star {
+    font-size: small;
+    vertical-align: text-top;
+}
+
+img {
+    height: 300px;
+    width: 300px;
+   }
