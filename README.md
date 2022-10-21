@@ -1,2 +1,6 @@
 # memory-game
-A Memory Game to practice my JavaScript
+A Memory Game
+
+This is a simple game I'm working on to practice HTML, CSS, and especially JavaScript.
+
+The idea and original code are from kubowania: https://github.com/kubowania/memory-game
