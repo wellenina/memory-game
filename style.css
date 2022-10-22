@@ -103,7 +103,7 @@ button:hover {
 }
 
 button:active {
-  background-color: #blue;
+  background-color: blue;
   box-shadow: 2px 2px #333;
   transform: translateX(4px) translateY(4px);
 }

@@ -40,11 +40,34 @@ document.addEventListener('DOMContentLoaded', () => {
     //create your board
     function createBoard() {
       for (let i = 0; i < cardArray.length; i++) { // per ogni carta (oggetto dentro all'array)
-        const card = document.createElement('img') // crea un elemento <img> nell'HTML per ogni carta
-        card.setAttribute('src', 'images/blank.png') // dà all'elemento <img> l'attributo 'src' indicando il path per l'immagine del retro della carta
-        card.setAttribute('data-id', i) // aggiunge l'attributo 'data-id' che equivale a i, cioè l'index dell'elemento dell'array, cioè un numero da 0 a 11
-        card.addEventListener('click', flipCard) // ascolta se le carte sono state cliccate e invoca funzione flipCard
-        grid.appendChild(card) // aggiunge "card", cioè l'elemento <img> con il suo path e il listener per il click, alla "grid" cioè al <div>
+        const flipBox = document.createElement('div')
+        flipBox.setAttribute('class', 'flip-box');
+        flipBox.addEventListener( 'click', function() {
+         flipBox.classList.toggle('is-flipped');
+        });
+        grid.appendChild(flipBox);
+        
+        const flipBoxInner = document.createElement('div')
+        flipBoxInner.setAttribute('class', 'flip-box-inner');
+        flipBox.appendChild(flipBoxInner);
+        
+        const flipBoxFront = document.createElement('div')
+        flipBoxFront.setAttribute('class', 'flip-box-front');
+        flipBoxInner.appendChild(flipBoxFront);
+        
+        const imgFront = document.createElement('img');
+        imgFront.setAttribute('src', cardArray[i].path);
+        imgFront.setAttribute('data-id', i);
+        flipBoxFront.appendChild(imgFront);
+        
+        const flipBoxBack = document.createElement('div')
+        flipBoxBack.setAttribute('class', 'flip-box-back');
+        flipBoxInner.appendChild(flipBoxBack);
+        
+        const imgBack = document.createElement('img');
+        imgBack.setAttribute('src', 'images/back.png');
+        imgBack.addEventListener('click', flipCard);
+        flipBoxBack.appendChild(imgBack);
       }
     }
 
@@ -53,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let cardId = this.getAttribute('data-id') // this si riverisce alla card/<img> cliccata, cardId prende l'attributo 'data-id', cioè un numero da 0 a 11
         cardsChosen.push(cardArray[cardId].name) // prende l'id e lo usa come index dell'array delle carte, tira fuori il nome della carta e lo aggiunge a cardsChosen
         cardsChosenId.push(cardId)  // aggiunge a cardsChosenId l'id della carta
-        this.setAttribute('src', cardArray[cardId].img) // aggiorna l'attributo 'src' dell'elemento <img> con il path all'immagine della carta
+        this.setAttribute('src', cardArray[cardId].path) // aggiorna l'attributo 'src' dell'elemento <img> con il path all'immagine della carta
         if (cardsChosen.length ===2) {  // dopo ogni click, verifica se sono state cliccate 2 carte. Se sì
           setTimeout(checkForMatch, 500) // aspetta 500 millisecondi, poi invoca checkForMatch
         }
