@@ -1,20 +1,56 @@
 body,
 html {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     text-align: center;
+    background-color: antiquewhite;
 }
+
+h1 {
+    font-family: 'Fugaz One', cursive;
+    font-size: min(4.5vw, 75px);
+}
+
+.star {
+    font-size: smaller;
+    vertical-align: text-top;
+    color: crimson;
+}
+
+.header {
+    width: min(950px, 60vw);
+    margin: 5% auto;
+    background-color: cornflowerblue;
+    border-radius: 1rem;
+    padding: 2.5%;
+    box-sizing: border-box;
+}
+
+.header h2 { /* #message */
+    font-size: min(3vw, 32px);;
+    margin: 0;
+}
+
+.info {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.header p {
+    font-size: min(2.5vw, 1rem);
+    border: 3px solid antiquewhite;
+    border-radius: 1em;
+    padding: 2.7% 5.5%;
+    margin: 4% 0 0;
+}
+
+
 
 .grid {
     display: flex;
     flex-wrap: wrap;
-    width: min(1250px, 80vw);
+    width: min(1250px, 75vw);
     gap: 1%;
-    margin: 0 auto;
-}
-
-.star {
-    font-size: small;
-    vertical-align: text-top;
+    margin: 5% auto;
 }
 
 img {
@@ -22,15 +58,14 @@ img {
    }
 
 /* flipping card animation */
-/* container */
-.flip-box {
+
+.flip-box { /* container */
     width: 24%;
-    perspective: 1000px;
+    /* perspective: 1000px; */
     margin-bottom: 25%;
   }
-  
-  /* container for front and back of the card */
-  .flip-box-inner {
+
+  .flip-box-inner { /* container for front and back of the card */
     position: relative;
     transition: transform 0.8s;
     transform-style: preserve-3d;
@@ -49,3 +84,26 @@ img {
   .flip-box-front {
     transform: rotateY(180deg);
   }
+
+  /* end of flipping card animation */
+
+  button {
+    font-size: 1rem;
+    color: antiquewhite;
+    background-color: cornflowerblue;
+    padding: 10px 20px;
+    border: 2px solid white;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 5px 5px #666;
+}
+  
+button:hover {
+   background-color: blue;
+}
+
+button:active {
+  background-color: #blue;
+  box-shadow: 2px 2px #333;
+  transform: translateX(4px) translateY(4px);
+}
