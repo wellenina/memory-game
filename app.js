@@ -73,8 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //flip a card
-    function flipCard() { // funziona invocata quando la carta viene cliccata
+    function flipCard() {
         this.classList.toggle('is-flipped'); // flipping card animation
+        new Audio("sound/flipcard-91468.mp3").play();
         this.removeEventListener('click', flipCard);
         flipped.textContent = ++cardsFlipped;
         let cardId = this.getAttribute('data-id')
@@ -92,21 +93,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const optionTwoId = cardsChosenId[1]
         
         if (cardsChosen[0] === cardsChosen[1]) { // it's a match
+          new Audio("sound/decidemp3-14575.mp3").play();
           message.textContent = 'You found a match! 🥳 YAY!'
           setTimeout((cards[optionOneId].style.visibility = 'hidden'), 700);
           setTimeout((cards[optionTwoId].style.visibility = 'hidden'), 700);
           cardsWon.push(cardsChosen)
         } else { // it's not a match
+          new Audio("sound/wronganswer-37702.mp3").play();
           cards[optionOneId].addEventListener('click', flipCard);
           cards[optionTwoId].addEventListener('click', flipCard);
-          setTimeout((cards[optionOneId].classList.toggle('is-flipped')), 700);
-          setTimeout((cards[optionTwoId].classList.toggle('is-flipped')), 700);
+          setTimeout((cards[optionOneId].classList.toggle('is-flipped')), 700); // flipping card animation
+          setTimeout((cards[optionTwoId].classList.toggle('is-flipped')), 700); // flipping card animation
           message.textContent = 'OH NO! 😭 Try again'
         }
         cardsChosen = []  // dopo che che 2 carte sono state cliccate, sia che matchino o no, i due array vengono puliti
         cardsChosenId = []
         matches.textContent = cardsWon.length
         if  (cardsWon.length === cardArray.length/2) {  // all the cards have been matched
+          new Audio("sound/success-fanfare-trumpets-6185.mp3").play();
           alert('Congratulations! You found them all!')
           message.textContent = 'Wanna play again?'
         }
