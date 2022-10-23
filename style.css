@@ -81,11 +81,23 @@ img {
     backface-visibility: hidden;
   }
 
+  .flip-box-back {
+    cursor: pointer;
+  }
+
   .flip-box-front {
     transform: rotateY(180deg);
   }
 
   /* end of flipping card animation */
+
+  .gameWon {
+    padding: 50px;
+    background-color: deeppink;
+    width: fit-content;
+    margin: 0 auto;
+    display: none;
+  }
 
   button {
     font-size: 1rem;

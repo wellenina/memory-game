@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = document.querySelector('#message')
     const matches = document.querySelector('#matches')
     const flipped = document.querySelector('#flipped')
+    const gameWon = document.querySelector('.gameWon')
     let cardsFlipped = 0;
     let cardsChosen = []
     let cardsChosenId = []
@@ -88,33 +89,39 @@ document.addEventListener('DOMContentLoaded', () => {
   
     //check for matches
     function checkForMatch() {
-        const cards = document.querySelectorAll('div.flip-box')
-        const optionOneId = cardsChosenId[0]
-        const optionTwoId = cardsChosenId[1]
-        
-        if (cardsChosen[0] === cardsChosen[1]) { // it's a match
-          new Audio("sound/decidemp3-14575.mp3").play();
-          message.textContent = 'You found a match! 🥳 YAY!'
-          setTimeout((cards[optionOneId].style.visibility = 'hidden'), 700);
-          setTimeout((cards[optionTwoId].style.visibility = 'hidden'), 700);
-          cardsWon.push(cardsChosen)
-        } else { // it's not a match
-          new Audio("sound/wronganswer-37702.mp3").play();
-          cards[optionOneId].addEventListener('click', flipCard);
-          cards[optionTwoId].addEventListener('click', flipCard);
-          setTimeout((cards[optionOneId].classList.toggle('is-flipped')), 700); // flipping card animation
-          setTimeout((cards[optionTwoId].classList.toggle('is-flipped')), 700); // flipping card animation
-          message.textContent = 'OH NO! 😭 Try again'
-        }
-        cardsChosen = []  // dopo che che 2 carte sono state cliccate, sia che matchino o no, i due array vengono puliti
-        cardsChosenId = []
+      const cards = document.querySelectorAll('div.flip-box')
+      const optionOneId = cardsChosenId[0]
+      const optionTwoId = cardsChosenId[1]
+      
+      if (cardsChosen[0] === cardsChosen[1]) { // it's a match
+        // setTimeout((cards[optionOneId].style.visibility = 'hidden'), 700);
+        // setTimeout((cards[optionTwoId].style.visibility = 'hidden'), 700);
+        cardsWon.push(cardsChosen)
         matches.textContent = cardsWon.length
-        if  (cardsWon.length === cardArray.length/2) {  // all the cards have been matched
-          new Audio("sound/success-fanfare-trumpets-6185.mp3").play();
-          alert('Congratulations! You found them all!')
-          message.textContent = 'Wanna play again?'
-        }
+        message.textContent = 'You found a match! 🥳 YAY!'
+
+      if  (cardsWon.length === cardArray.length/2) {  // all the cards have been matched
+        new Audio("sound/success-fanfare-trumpets-6185.mp3").play();
+        grid.style.display = 'none'
+        gameWon.style.display = 'block'
+        // setTimeout((alert('Congratulations! You found them all!')), 1000);
+        // message.textContent = 'Wanna play again?'
+      } else {
+        new Audio("sound/decidemp3-14575.mp3").play();
+        setTimeout((cards[optionOneId].style.visibility = 'hidden'), 700);
+        setTimeout((cards[optionTwoId].style.visibility = 'hidden'), 700);
+      }} else { // it's not a match
+        new Audio("sound/wronganswer-37702.mp3").play();
+        cards[optionOneId].addEventListener('click', flipCard);
+        cards[optionTwoId].addEventListener('click', flipCard);
+        setTimeout((cards[optionOneId].classList.toggle('is-flipped')), 700); // flipping card animation
+        setTimeout((cards[optionTwoId].classList.toggle('is-flipped')), 700); // flipping card animation
+        message.textContent = 'OH NO! 😭 Try again'
       }
+      cardsChosen = []  // dopo che che 2 carte sono state cliccate, sia che matchino o no, i due array vengono puliti
+      cardsChosenId = []       
+    }
+  
   
     createBoard()
   })
