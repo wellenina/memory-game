@@ -93,6 +93,7 @@ img {
 
   .flip-box-front {
     transform: rotateY(180deg);
+    z-index: 1;
   }
   /* end of flipping card animation */
 
