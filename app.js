@@ -13,16 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
   let cardsWon = [];
   let valueTheme = 'kitten'; // default theme
   let valueDifficulty = 6; // default difficulty level (easy)
+  let playerTurn = false;
 
   const startNewGameBtn = document.getElementById('new-game-btn');
-  startNewGameBtn.addEventListener('click', startNewGame);
+  startNewGameBtn.addEventListener('click', startAnotherGame);
   const nevermoreBtn = document.getElementById('nevermore-btn');
   nevermoreBtn.addEventListener('click', nevermore);
 
-  function defaultGame() {
+  function newGame() {
     cardArray = selectCards(valueTheme, valueDifficulty); // select the cards (default values)
     const imgBackPath = findImgBack(valueTheme);
     createBoard(cardArray, imgBackPath); // create the board
+    playerTurn = true;
   }
 
   function selectCards(theme, difficulty) { // return paths to selected cards, based on theme and difficulty
@@ -68,9 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
       imgBack.setAttribute('src', imgBackPath);
       flipBoxBack.appendChild(imgBack);
     }
+    /////////
   }
 
   function flipCard() { //flip a card
+    if (playerTurn === false) {
+      return;
+    }
     this.classList.toggle('is-flipped'); // flipping card animation
     new Audio('sound/flipcard-91468.mp3').play();
     this.removeEventListener('click', flipCard);
@@ -79,6 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsChosen.push(cardArray[cardId]);
     cardsChosenId.push(cardId);
     if (cardsChosen.length ===2) {  // check if a pair of cards has been flipped
+      playerTurn = false;
+      document.body.style.cursor = "wait";
       setTimeout(checkForMatch, 800) // invoke checkForMatch() function
     }
   }
@@ -95,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if  (cardsWon.length === cardArray.length/2) {  // it's a match AND all the cards have been matched - GAME WON
         new Audio('sound/success-fanfare-trumpets-6185.mp3').play();
         board.style.display = 'none';
-        board.replaceChildren();
         gameWon.style.display = 'block';
       } else { // it's a match BUT the game is not over
         new Audio('sound/decidemp3-14575.mp3').play();
@@ -111,10 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     cardsChosen = [];
     cardsChosenId = [];
+    playerTurn = true;
+    document.body.style.cursor = "auto";
     }
   
-  function startNewGame() { // invoked when clicking on "Start new game" button
-    message.textContent = 'Let&rsquo;s play!'; // reset message and counters
+  function startAnotherGame() { // invoked when clicking on "Start new game" button
+    playerTurn = false;
+    board.replaceChildren();
+    message.textContent = 'Let\’s play!'; // reset message and counters
     matches.textContent = 0;
     cardsWon = [];
     flipped.textContent = 0;
@@ -127,9 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectDifficulty = document.getElementById('difficulty');
     valueDifficulty = selectDifficulty.value; // value: 6, 10, 18
 
-    cardArray = selectCards(valueTheme, valueDifficulty); // select the cards
-    const imgBackPath = findImgBack(valueTheme);
-    createBoard(cardArray, imgBackPath); // create the board
+    newGame();
     board.style.display = 'flex'; // display the board
   }
 
@@ -140,5 +149,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // AGGIUNGERE IMMAGINE RANDOM
   }
 
-  defaultGame();
+  newGame();
   })
