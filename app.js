@@ -1,41 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    // the cards
-    const cardArray = [ // attenzione! l'array contiene già le coppie di carte (nome e path uguale)
-        { name: 'cat1',
-        path: 'images/andriyko-podilnyk-RCfi7vgJjUY-unsplash.jpg' },
-      { name: 'cat2',
-        path: 'images/anton-kraev-TuU5tODcrzU-unsplash.jpg' },
-      { name: 'cat3',
-        path: 'images/bofu-shaw-hL4UUjX8pr0-unsplash.jpg' },
-      { name: 'cat4',
-        path: 'images/danilo-batista-eSceitc-s30-unsplash.jpg' },
-      { name: 'cat5',
-        path: 'images/dorothea-oldani-Hhm_fL04bE8-unsplash.jpg' },
-      { name: 'cat6',
-        path: 'images/dorothea-oldani-j9ONgR_5mOU-unsplash.jpg' },
-      { name: 'cat1',
-        path: 'images/andriyko-podilnyk-RCfi7vgJjUY-unsplash.jpg' },
-      { name: 'cat2',
-        path: 'images/anton-kraev-TuU5tODcrzU-unsplash.jpg' },
-      { name: 'cat3',
-        path: 'images/bofu-shaw-hL4UUjX8pr0-unsplash.jpg' },
-      { name: 'cat4',
-        path: 'images/danilo-batista-eSceitc-s30-unsplash.jpg' },
-      { name: 'cat5',
-        path: 'images/dorothea-oldani-Hhm_fL04bE8-unsplash.jpg' },
-      { name: 'cat6',
-        path: 'images/dorothea-oldani-j9ONgR_5mOU-unsplash.jpg' }
-    ]
-  
-    // shuffling cards
-    cardArray.sort(() => 0.5 - Math.random())
   
     const grid = document.querySelector('.grid')
     const message = document.querySelector('#message')
     const matches = document.querySelector('#matches')
     const flipped = document.querySelector('#flipped')
-    const gameWon = document.querySelector('.gameWon')
+    const gameWon = document.querySelector('.game-won')
+    const reaction = document.querySelector('.reaction')
     let cardsFlipped = 0;
     let cardsChosen = []
     let cardsChosenId = []
@@ -47,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const flipBox = document.createElement('div')
         flipBox.setAttribute('class', 'flip-box');
-        flipBox.setAttribute('data-id', i);
+        flipBox.setAttribute('data-id', i); // data-id attribute = item index in cardArray
         flipBox.addEventListener('click', flipCard)
         grid.appendChild(flipBox);
         
@@ -60,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         flipBoxInner.appendChild(flipBoxFront);
         
         const imgFront = document.createElement('img');
-        imgFront.setAttribute('src', cardArray[i].path);
+        imgFront.setAttribute('src', cardArray[i]);
         flipBoxFront.appendChild(imgFront);
         
         const flipBoxBack = document.createElement('div')
@@ -68,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         flipBoxInner.appendChild(flipBoxBack);
         
         const imgBack = document.createElement('img');
-        imgBack.setAttribute('src', 'images/back.png');
+        imgBack.setAttribute('src', imgBackPath);
         flipBoxBack.appendChild(imgBack);
       }
     }
@@ -80,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this.removeEventListener('click', flipCard);
         flipped.textContent = ++cardsFlipped;
         let cardId = this.getAttribute('data-id')
-        cardsChosen.push(cardArray[cardId].name)
+        cardsChosen.push(cardArray[cardId])
         cardsChosenId.push(cardId)
         if (cardsChosen.length ===2) {  // dopo ogni click, verifica se sono state cliccate 2 carte. Se sì
           setTimeout(checkForMatch, 800) // aspetta 500 millisecondi, poi invoca checkForMatch
@@ -94,8 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const optionTwoId = cardsChosenId[1]
       
       if (cardsChosen[0] === cardsChosen[1]) { // it's a match
-        // setTimeout((cards[optionOneId].style.visibility = 'hidden'), 700);
-        // setTimeout((cards[optionTwoId].style.visibility = 'hidden'), 700);
         cardsWon.push(cardsChosen)
         matches.textContent = cardsWon.length
         message.textContent = 'You found a match! 🥳 YAY!'
@@ -104,8 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         new Audio("sound/success-fanfare-trumpets-6185.mp3").play();
         grid.style.display = 'none'
         gameWon.style.display = 'block'
-        // setTimeout((alert('Congratulations! You found them all!')), 1000);
-        // message.textContent = 'Wanna play again?'
       } else {
         new Audio("sound/decidemp3-14575.mp3").play();
         setTimeout((cards[optionOneId].style.visibility = 'hidden'), 700);
@@ -124,4 +90,45 @@ document.addEventListener('DOMContentLoaded', () => {
   
   
     createBoard()
+
+
+  function startNewGame() { // CHIAMATA QUANDO SI CLICCA IL BOTTONE
+
+    let selectTheme = document.getElementById('theme');
+    let valueTheme = selectTheme.value; // get selected theme
+    let selectDifficulty = document.getElementById('difficulty');
+    let valueDifficulty = selectDifficulty.value; // selected difficulty (value: 6, 10, 18)
+
+    const cardArray = selectCards(valueTheme, valueDifficulty); // the cards
+    const imgBackPath = findImgBack(valueTheme)
+    // creare la board di conseguenza
+
+    // SE CHIAMATA QUANDO FINITO UN GIOCO:
+    message.textContent = 'Let&rsquo;s play!'; // reset message and counters
+    matches.textContent = 0;
+    cardsWon = [];
+    flipped.textContent = 0;
+    cardsFlipped = 0;
+    grid.style.display = 'flex'; // display the board
+    gameWon.style.display = 'none'; // hide other sections
+    reaction.style.display = 'none';
+  }
+
+
+
+  function selectCards(theme, difficulty) { // RITORNA ARRAY CON PATH ALLE CARTE SELZIONATE IN BASE A TEMA E DIFFICOLTà
+    let allCards = []; // path to all the 25 card options
+    for (let i = 1; i <= 25; i++) {
+      allCards.push("images/" + theme + i + ".jpg");
+    }
+    allCards.sort(() => 0.5 - Math.random()); // shuffling cards
+    allCards.splice(difficulty); // keeping the first 6, 10 or 18 cards
+    allCards = allCards.concat(allCards); // doubling cards
+    return allCards.sort(() => 0.5 - Math.random()); // re-shuffling cards
+    }
+
+  function findImgBack(theme) { // RITORNA PATH PER IL RETRO DELLA CARTA
+    return "images/" + theme + "-back.jpg";
+  }
+
   })

@@ -166,12 +166,21 @@
     </div>  --> 
 
 
-    <div class="gameWon">Congratulations! You did it! Wanna play again?</div>
-    <!-- AGGIUNGERE BOTTONI YES/NO -->
+    <section class="game-won">
+      <h2>Congratulations! You did it! Wanna play again?</h2>
+    
+      <div class="play-again">
+        <a href="#new-game"><button>Yeah definitely can't wait!</button></a>
+        <button>No, thanks, I'm good</button>     <!-- AGGIUNGERE FUNZIONE -->
+      </div>
 
+    </section>
 
-    <div class="reaction"></div>
-    <!-- AGGIUNGERE TESTO+FUNZIONE -->
+    <section class="reaction">
+      <div id="reaction"></div>     <!-- AGGIUNGERE FUNZIONE -->
+      <p>Well, if you change your mind... <span class="arrow">&#x2B07;</span></p>
+    </section>
+
 
 
     <section id="new-game">
@@ -188,9 +197,9 @@
 
   <label for="difficulty">Difficulty:</label>
   <select name="difficulty" id="difficulty">
-    <option value="easy">Easy</option>
-    <option value="medium">Medium</option>
-    <option value="hard">Hard</option>
+    <option value="6">Easy</option>
+    <option value="10">Medium</option>
+    <option value="18">Hard</option>
   </select>
 </div>
 

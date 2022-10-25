@@ -3,6 +3,7 @@ html {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
     background-color: antiquewhite;
+    scroll-behavior: smooth;
 }
 
 /* title */
@@ -96,7 +97,7 @@ img {
   /* end of flipping card animation */
 
   /* game-won section */
-  .gameWon {
+  .game-won {
     padding: 50px;
     background-color: deeppink;
     width: fit-content;
@@ -105,6 +106,28 @@ img {
   }
 
 /* reaction section */
+
+.reaction {
+  display: none;
+
+}
+.arrow {
+  display: inline-block;
+  font-size: larger;
+  vertical-align: middle;
+  color: deeppink;
+  animation: bounce 2s ease infinite;
+}
+
+@keyframes bounce {
+  70% { transform:translateY(0%); }
+  80% { transform:translateY(-15%); }
+  90% { transform:translateY(0%); }
+  95% { transform:translateY(-7%); }
+  97% { transform:translateY(0%); }
+  99% { transform:translateY(-3%); }
+  100% { transform:translateY(0); }
+}
 
 /* start new game section */
 #new-game button {
@@ -130,6 +153,7 @@ button:active {
 #new-game label,
 #new-game select {
   font-size: min(2.5vw, 1rem);
+  font-family: 'Montserrat', sans-serif;
   padding: 1.5%;
 }
 
