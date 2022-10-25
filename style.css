@@ -5,6 +5,7 @@ html {
     background-color: antiquewhite;
 }
 
+/* title */
 h1 {
     font-family: 'Fugaz One', cursive;
     font-size: min(4.5vw, 75px);
@@ -16,35 +17,40 @@ h1 {
     color: crimson;
 }
 
-.header {
+/* header */
+header,
+#new-game {
     width: min(950px, 60vw);
-    margin: 5% auto;
+    margin: 3% auto;
     background-color: cornflowerblue;
     border-radius: 1rem;
-    padding: 2.5%;
+    padding: 1.5%;
     box-sizing: border-box;
 }
 
-.header h2 { /* #message */
-    font-size: min(3vw, 32px);;
+header h2, /* #message */
+#new-game button {
+    font-size: min(3vw, 32px);
     margin: 0;
 }
 
-.info {
+header .info,
+#new-game .select-options {
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
+    margin: 2% 0 0;
 }
 
-.header p {
+header p {
     font-size: min(2.5vw, 1rem);
-    border: 3px solid antiquewhite;
+    border: 2px solid antiquewhite;
     border-radius: 1em;
     padding: 2.7% 5.5%;
-    margin: 4% 0 0;
+    margin: 0;
 }
 
-
-
+/* grid section */
 .grid {
     display: flex;
     flex-wrap: wrap;
@@ -58,7 +64,6 @@ img {
    }
 
 /* flipping card animation */
-
 .flip-box { /* container */
     width: 24%;
     /* perspective: 1000px; */
@@ -88,9 +93,9 @@ img {
   .flip-box-front {
     transform: rotateY(180deg);
   }
-
   /* end of flipping card animation */
 
+  /* game-won section */
   .gameWon {
     padding: 50px;
     background-color: deeppink;
@@ -99,8 +104,10 @@ img {
     display: none;
   }
 
-  button {
-    font-size: 1rem;
+/* reaction section */
+
+/* start new game section */
+#new-game button {
     color: antiquewhite;
     background-color: cornflowerblue;
     padding: 10px 20px;
@@ -119,3 +126,18 @@ button:active {
   box-shadow: 2px 2px #333;
   transform: translateX(4px) translateY(4px);
 }
+
+#new-game label,
+#new-game select {
+  font-size: min(2.5vw, 1rem);
+  padding: 1.5%;
+}
+
+#new-game select {
+  border-radius: 8px;
+  border: 2px solid antiquewhite;
+}
+
+
+
+/* footer */

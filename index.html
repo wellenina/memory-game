@@ -11,22 +11,21 @@
 </head>
 <body>
 
+
     <h1>The Funniest<span class="star">&#42;</span> Memory Game of All Time</h1>
   
-    <section class="header">
+
+    <header>
     <h2 id="message">Let&rsquo;s play!</h2>
   <div class="info">
     <p>Matches: <span id="matches">0</span></p>
     <p>Cards flipped: <span id="flipped">0</span></p>
 </div>
-</section>
+</header>
   
   
     <div class="grid">
     </div>
-
-
-<div class="gameWon">Congratulations! You did it! Wanna play again?</div>
 
     <!-- HOW THE BOARD SHOULD LOOK -->   
 
@@ -166,11 +165,42 @@
 
     </div>  --> 
 
-    <button>Start new game</button>
+
+    <div class="gameWon">Congratulations! You did it! Wanna play again?</div>
+    <!-- AGGIUNGERE BOTTONI YES/NO -->
 
 
-  
+    <div class="reaction"></div>
+    <!-- AGGIUNGERE TESTO+FUNZIONE -->
+
+
+    <section id="new-game">
+    <button onclick="startNewGame()">Start new game</button>
+
+    <div class="select-options">
+    <label for="theme">Select theme:</label>
+  <select name="theme" id="theme">
+    <option value="kitten">Kittens</option>
+    <option value="pride">Pride</option>
+    <option value="hero">Marvel Heroes</option>
+    <option value="rock">The Rock</option>
+  </select>
+
+  <label for="difficulty">Difficulty:</label>
+  <select name="difficulty" id="difficulty">
+    <option value="easy">Easy</option>
+    <option value="medium">Medium</option>
+    <option value="hard">Hard</option>
+  </select>
+</div>
+
+  </section>
+
+
+  <footer>
     <p>&#42; This may not <em>actually</em> be the funniest memory game of all time, but a girl can dream</p>
-    
+    <!-- AGGIUNGERE COSE -->
+  </footer>
+
 </body>
 </html>
