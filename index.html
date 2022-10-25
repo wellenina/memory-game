@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"  dir="ltr">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Memory Game</title>
     <link rel="stylesheet" href="style.css"></link>
@@ -8,173 +8,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
     <script src="app.js" charset="utf-8"></script>
 
-</head>
-<body>
-
+  </head>
+  <body>
 
     <h1>The Funniest<span class="star">&#42;</span> Memory Game of All Time</h1>
-  
+    
 
     <header>
-    <h2 id="message">Let&rsquo;s play!</h2>
-  <div class="info">
-    <p>Matches: <span id="matches">0</span></p>
-    <p>Cards flipped: <span id="flipped">0</span></p>
-</div>
-</header>
-  
-  
-    <div class="grid">
+      <h2 id="message">Let&rsquo;s play!</h2>
+      <div class="info">
+        <p>Matches: <span id="matches">0</span></p>
+        <p>Cards flipped: <span id="flipped">0</span></p>
+      </div>
+    </header>
+    
+    
+    <div class="board">
     </div>
 
-    <!-- HOW THE BOARD SHOULD LOOK -->   
-
-    <!-- <div class="grid">
-
-    <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/andriyko-podilnyk-RCfi7vgJjUY-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/anton-kraev-TuU5tODcrzU-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/bofu-shaw-hL4UUjX8pr0-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/danilo-batista-eSceitc-s30-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/dorothea-oldani-Hhm_fL04bE8-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/dorothea-oldani-j9ONgR_5mOU-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/andriyko-podilnyk-RCfi7vgJjUY-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/anton-kraev-TuU5tODcrzU-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/bofu-shaw-hL4UUjX8pr0-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/danilo-batista-eSceitc-s30-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/dorothea-oldani-Hhm_fL04bE8-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="images/dorothea-oldani-j9ONgR_5mOU-unsplash.jpg">
-          </div>
-          <div class="flip-box-back">
-      <img src="images/back.png">
-          </div>
-        </div>
-      </div>
-
-    </div>  --> 
-
-
-    <section class="game-won">
-      <h2>Congratulations! You did it! Wanna play again?</h2>
     
+    <section class="game-won">
+      <h2>Congratulations! You did it!<br>Wanna play again?</h2>
+      
       <div class="play-again">
-        <a href="#new-game"><button>Yeah definitely can't wait!</button></a>
-        <button>No, thanks, I'm good</button>     <!-- AGGIUNGERE FUNZIONE -->
+        <a href="#new-game"><button>Yeah definitely can't wait!</button></a>     <!-- AGGIUNGERE FUNZIONE -->
+        <button id="nevermore-btn">No, thanks, I'm good</button>     <!-- AGGIUNGERE FUNZIONE -->
       </div>
-
     </section>
+
 
     <section class="reaction">
       <div id="reaction"></div>     <!-- AGGIUNGERE FUNZIONE -->
@@ -182,34 +43,32 @@
     </section>
 
 
-
     <section id="new-game">
-    <button onclick="startNewGame()">Start new game</button>
+      <button id="new-game-btn">Start new game</button>
 
-    <div class="select-options">
-    <label for="theme">Select theme:</label>
-  <select name="theme" id="theme">
-    <option value="kitten">Kittens</option>
-    <option value="pride">Pride</option>
-    <option value="hero">Marvel Heroes</option>
-    <option value="rock">The Rock</option>
-  </select>
+      <div class="select-options">
+        <label for="theme">Select theme:</label>
+          <select name="theme" id="theme">
+            <option value="kitten">Kittens</option>
+            <option value="pride">Pride</option>
+            <option value="hero">Marvel Heroes</option>
+            <option value="rock">The Rock</option>
+          </select>
 
-  <label for="difficulty">Difficulty:</label>
-  <select name="difficulty" id="difficulty">
-    <option value="6">Easy</option>
-    <option value="10">Medium</option>
-    <option value="18">Hard</option>
-  </select>
-</div>
+        <label for="difficulty">Difficulty:</label>
+          <select name="difficulty" id="difficulty">
+            <option value="6">Easy</option>
+            <option value="10">Medium</option>
+            <option value="18">Hard</option>
+          </select>
+      </div>
+    </section>
 
-  </section>
 
+    <footer>
+      <p>&#42; This may not <em>actually</em> be the funniest memory game of all time, but a girl can dream</p>
+      <!-- AGGIUNGERE COSE -->
+    </footer>
 
-  <footer>
-    <p>&#42; This may not <em>actually</em> be the funniest memory game of all time, but a girl can dream</p>
-    <!-- AGGIUNGERE COSE -->
-  </footer>
-
-</body>
+  </body>
 </html>

@@ -51,8 +51,8 @@ header p {
     margin: 0;
 }
 
-/* grid section */
-.grid {
+/* the board */
+.board {
     display: flex;
     flex-wrap: wrap;
     width: min(1250px, 75vw);
