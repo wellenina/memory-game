@@ -150,4 +150,44 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   newGame();
+
+
+
+
+
+
+// la sezione reaction che va in display block/none
+const reaction = document.querySelector('.reaction');
+
+// bottone "Yeah definitely can't wait!"
+const playAgainBtn = document.getElementById('play-again-btn');
+
+// event listener con FUNZIONE CHE NON FUNZIONA
+playAgainBtn.addEventListener('click', function() {
+  displayReaction(happy);
+});
+
+// bottone "No, thanks, I'm good"
+const nevermoreBtn = document.getElementById('nevermore-btn');
+
+// event listener con FUNZIONE
+nevermoreBtn.addEventListener('click', function() {
+  displayReaction(sad);
+});
+
+// array con url delle gif e commento:
+const happy = [['dZ4Mjq65R6Vl4ByVMy', 'Ww6XqrwrLR4ZrIZLCa', 'xUPJPB7DuFNoa8mqqY', 'XurKBe1Urqn4hsxYBR', 'xTiN0ELHTRx5iKUKru', 'l0Exbi7eBQ7v0iREI', 'nYItBY4R8gaXK', 'n9ONPpvaJzlQMAsE9o', 'iurIHLBxms7UQ', 'dStGLzAv2QT4c', 'Uq44mYg7mGUQMYllVf', 'MsWfQDM0xvDNfT4MRN', 'eAAGcrAYceFgSrPk1X', '134MhjLjg4mhc4', '3oiITfc0J8nvSxOSKf'], 'YAY!<br>Please select a theme and a difficulty level:'];
+
+const sad = [['Qvm2704d1Dqus', 'DfTZWmFpLx3os', 'cPKWZB2aaB3rO', 'IW6GHuaFldi1O', 'DFNd1yVyRjmF2', '9hBW9Ay4pW10Y', 'XDKsF8ZR59DFvZVxwL', 'l22ysLe54hZP0wubek', 'YLgIOmtIMUACY', 'nZipTf7i0sP8A', 'ls08tlIPCsnVS', 'Jq7y34Hgfy01y', 'eo2IEkCJ7ceNJy7cq6', '3HHxwYjiCMTvTNEib7', 'aV0TP55kop0s1NoKI2', 'JWoZAgK794t51DrxAA', 'l0HlIHz7I8Vlgvvws', 'c615QQXQ3kDn33Kwnx'], 'Oh, OK... Well...<br>If you change your mind...'];
+
+
+function displayReaction(mood) {
+  resetCounters();
+  gameWon.style.display = 'none';
+  reaction.style.display = 'block';
+
+  document.getElementById('gif-reaction').setAttribute('src', `https://giphy.com/embed/${mood[0][Math.floor(Math.random()*mood[0].length)]}`)
+  document.getElementById('reaction-comment').textContent = mood[1]
+  }
+
   })
