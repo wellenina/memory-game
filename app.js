@@ -5,35 +5,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const message = document.querySelector('#message');
   const matches = document.querySelector('#matches');
   const flipped = document.querySelector('#flipped');
-  let cardsFlipped = 0; // counter for flipped cards
+  let cardsFlipped = 0;
   const gameWon = document.querySelector('.game-won');
-  const reaction = document.querySelector('.reaction');
   let cardsChosen = [];
   let cardsChosenId = [];
   let cardsWon = [];
   let valueTheme = 'kitten'; // default theme
   let valueDifficulty = 6; // default difficulty level (easy)
   let playerTurn = false;
-
   const startNewGameBtn = document.getElementById('new-game-btn');
   startNewGameBtn.addEventListener('click', startAnotherGame);
-  const nevermoreBtn = document.getElementById('nevermore-btn');
-  nevermoreBtn.addEventListener('click', nevermore);
-
+  
+  // start new game
   function newGame() {
-    cardArray = selectCards(valueTheme, valueDifficulty); // select the cards (default values)
+    cardArray = selectCards(valueTheme, valueDifficulty);
     const imgBackPath = findImgBack(valueTheme);
-    createBoard(cardArray, imgBackPath); // create the board
+    createBoard(cardArray, imgBackPath);
     playerTurn = true;
   }
 
-  function selectCards(theme, difficulty) { // return paths to selected cards, based on theme and difficulty
-    let allCards = []; // path to all the 25 card options
+  // return paths to selected cards, based on theme and difficulty
+  function selectCards(theme, difficulty) {
+    let allCards = [];
     for (let i = 1; i <= 25; i++) {
-      allCards.push('images/' + theme + i + '.jpg');
+      allCards.push('images/' + theme + i + '.jpg'); // path to all the 25 card options
     }
     allCards.sort(() => 0.5 - Math.random()); // shuffle cards
-    allCards.splice(difficulty); // keep the first 6, 10 or 18 cards
+    allCards.splice(difficulty); // keep the first 6, 12 or 20 cards
     allCards = allCards.concat(allCards); // double cards
     return allCards.sort(() => 0.5 - Math.random()); // re-shuffle cards
   }
@@ -42,10 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return 'images/' + theme + '-back.jpg';
   }
   
-  function createBoard(cardArray, imgBackPath) { //create the board
+  //create the board
+  function createBoard(cardArray, imgBackPath) {
+
     for (let i = 0; i < cardArray.length; i++) {
       const flipBox = document.createElement('div');
-      flipBox.setAttribute('class', 'flip-box');
+      flipBox.setAttribute('class', `flip-box cards${valueDifficulty}`);
       flipBox.setAttribute('data-id', i); // data-id attribute = item index in cardArray
       flipBox.addEventListener('click', flipCard);
       board.appendChild(flipBox);
@@ -70,10 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
       imgBack.setAttribute('src', imgBackPath);
       flipBoxBack.appendChild(imgBack);
     }
-    /////////
   }
 
-  function flipCard() { //flip a card
+  //flip a card
+  function flipCard() {
     if (playerTurn === false) {
       return;
     }
@@ -91,7 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  function checkForMatch() { //check for matches
+  //check for matches
+  function checkForMatch() {
     const cards = document.querySelectorAll('div.flip-box');
     const optionOneId = cardsChosenId[0];
     const optionTwoId = cardsChosenId[1];
@@ -120,33 +121,32 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsChosenId = [];
     playerTurn = true;
     document.body.style.cursor = "auto";
-    }
-  
-  function startAnotherGame() { // invoked when clicking on "Start new game" button
-    playerTurn = false;
-    board.replaceChildren();
-    message.textContent = 'Let\’s play!'; // reset message and counters
+  }
+
+  // reset message and counters
+  function resetCounters() {
+    message.textContent = 'Let\’s play!';
     matches.textContent = 0;
     cardsWon = [];
     flipped.textContent = 0;
     cardsFlipped = 0;
+  }
+  
+  // invoked when clicking on "Start new game" button
+  function startAnotherGame() {
+    playerTurn = false;
+    board.replaceChildren();
+    resetCounters();
     gameWon.style.display = 'none'; // hide sections
-    reaction.style.display = 'none';
+    // reaction.style.display = 'none'; //////////////////////////////////
 
     const selectTheme = document.getElementById('theme'); // get inputs from player
     valueTheme = selectTheme.value;
     const selectDifficulty = document.getElementById('difficulty');
-    valueDifficulty = selectDifficulty.value; // value: 6, 10, 18
+    valueDifficulty = selectDifficulty.value; // value: 6, 12, 20
 
     newGame();
     board.style.display = 'flex'; // display the board
-  }
-
-  function nevermore() { // invoked by click on button --DA FINIRE--
-    gameWon.style.display = 'none';
-    reaction.style.display = 'block';
-
-    // AGGIUNGERE IMMAGINE RANDOM
   }
 
   newGame();

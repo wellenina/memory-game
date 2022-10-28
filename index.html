@@ -14,7 +14,7 @@
     <h1>The Funniest<span class="star">&#42;</span> Memory Game of All Time</h1>
     
 
-    <header>
+    <header id="header">
       <h2 id="message">Let&rsquo;s play!</h2>
       <div class="info">
         <p>Matches: <span id="matches">0</span></p>
@@ -31,20 +31,21 @@
       <h2>Congratulations! You did it!<br>Wanna play again?</h2>
       
       <div class="play-again">
-        <a href="#new-game"><button>Yeah definitely can't wait!</button></a>     <!-- AGGIUNGERE FUNZIONE -->
-        <button id="nevermore-btn">No, thanks, I'm good</button>     <!-- AGGIUNGERE FUNZIONE -->
+        <button id="play-again-btn">Yeah definitely<br>can't wait!</button>
+        <button id="nevermore-btn">No, thanks,<br>I'm good</button>
       </div>
     </section>
 
 
     <section class="reaction">
-      <div id="reaction"></div>     <!-- AGGIUNGERE FUNZIONE -->
-      <p>Well, if you change your mind... <span class="arrow">&#x2B07;</span></p>
+      <iframe id="gif-reaction" src="https://giphy.com/embed/NntRfaR7rnE4g"></iframe> <!-- //////// -->
+      <p id="reaction-comment">Test oh hello how are you hi honey bye yeah</p> <!-- //////// -->
+      <div class="arrow">&#x2B07;</div>
     </section>
 
 
     <section id="new-game">
-      <button id="new-game-btn">Start new game</button>
+      <a href="#header"><button id="new-game-btn">Start new game</button></a>
 
       <div class="select-options">
         <label for="theme">Select theme:</label>
@@ -58,8 +59,8 @@
         <label for="difficulty">Difficulty:</label>
           <select name="difficulty" id="difficulty">
             <option value="6">Easy</option>
-            <option value="10">Medium</option>
-            <option value="18">Hard</option>
+            <option value="12">Medium</option>
+            <option value="20">Hard</option>
           </select>
       </div>
     </section>
@@ -67,7 +68,6 @@
 
     <footer>
       <p>&#42; This may not <em>actually</em> be the funniest memory game of all time, but a girl can dream</p>
-      <!-- AGGIUNGERE COSE -->
     </footer>
 
   </body>

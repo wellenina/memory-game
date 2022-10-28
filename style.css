@@ -10,6 +10,7 @@ html {
 h1 {
     font-family: 'Fugaz One', cursive;
     font-size: min(4.5vw, 75px);
+    margin: 1%;
 }
 
 .star {
@@ -22,10 +23,10 @@ h1 {
 header,
 #new-game {
     width: min(950px, 60vw);
-    margin: 3% auto;
+    margin: 1% auto;
     background-color: cornflowerblue;
     border-radius: 1rem;
-    padding: 1.5%;
+    padding: 1%;
     box-sizing: border-box;
 }
 
@@ -40,14 +41,14 @@ header .info,
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    margin: 2% 0 0;
+    margin: 1% 0 0;
 }
 
 header p {
     font-size: min(2.5vw, 1rem);
     border: 2px solid antiquewhite;
     border-radius: 1em;
-    padding: 2.7% 5.5%;
+    padding: 1.7% 4.5%;
     margin: 0;
 }
 
@@ -55,20 +56,36 @@ header p {
 .board {
     display: flex;
     flex-wrap: wrap;
-    width: min(1250px, 75vw);
-    gap: 1%;
-    margin: 5% auto;
+    justify-content: center;
+    width: min(1250px, 55vw);
+    gap: 0.6%;
+    margin: 1.5% auto;
 }
 
 img {
     width: 100%;
+    border-radius: 0.5rem;
    }
 
+  .flip-box-front img {
+    border: 6px solid bisque; /* CAMBIARE COLORE e SPESSORE bordo */
+    box-sizing: border-box;
+  }
+
 /* flipping card animation */
-.flip-box { /* container */
-    width: 24%;
-    /* perspective: 1000px; */
-    margin-bottom: 25%;
+.flip-box.cards6 { /* container */
+    width: 24.5%;
+    margin-bottom: 25.1%;
+  }
+
+  .flip-box.cards12 {
+    width: 16.1%;
+    margin-bottom: 16.7%;
+  }
+
+  .flip-box.cards20 {
+    width: 11.9%;
+    margin-bottom: 12.5%;
   }
 
   .flip-box-inner { /* container for front and back of the card */
@@ -98,25 +115,61 @@ img {
   /* end of flipping card animation */
 
   /* game-won section */
-  .game-won {
-    padding: 50px;
+  .game-won,
+  .reaction {
+    padding: 3rem;
     background-color: deeppink;
     width: fit-content;
-    margin: 0 auto;
+    margin: 6% auto;
     display: none;
+    border-radius: 1rem;
   }
+
+  .game-won h2, #reaction-comment {
+    line-height: 200%;
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  .game-won button {
+    font-family: 'Montserrat', sans-serif;
+    color: antiquewhite;
+    background-color: cornflowerblue;
+    padding: 10px 20px;
+    border: 2px solid white;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 5px 5px #666;
+    margin: 5% 3% 0;
+    max-width: 40%;
+  }
+  
+  .game-won button:hover {
+   background-color: blue;
+}
+
+.game-won button:active {
+  background-color: blue;
+  box-shadow: 2px 2px #333;
+  transform: translateX(4px) translateY(4px);
+}
+
 
 /* reaction section */
 
 .reaction {
-  display: none;
-
+  padding-bottom: 0;
 }
+
+iframe {
+  width: 480px;
+  height: 288px;
+  border: none;
+}
+
 .arrow {
-  display: inline-block;
-  font-size: larger;
-  vertical-align: middle;
-  color: deeppink;
+  font-size: 9rem;
+  color: bisque;
   animation: bounce 2s ease infinite;
 }
 
@@ -132,6 +185,7 @@ img {
 
 /* start new game section */
 #new-game button {
+    font-family: 'Montserrat', sans-serif;
     color: antiquewhite;
     background-color: cornflowerblue;
     padding: 10px 20px;
@@ -139,13 +193,14 @@ img {
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 5px 5px #666;
+    margin: 0 0 2%;
 }
   
-button:hover {
+#new-game button:hover {
    background-color: blue;
 }
 
-button:active {
+#new-game button:active {
   background-color: blue;
   box-shadow: 2px 2px #333;
   transform: translateX(4px) translateY(4px);
