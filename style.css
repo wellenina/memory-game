@@ -2,7 +2,8 @@ body,
 html {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
-    background-color: antiquewhite;
+    color: #264143;
+    background-color: #eddcd9;
     scroll-behavior: smooth;
 }
 
@@ -10,13 +11,14 @@ html {
 h1 {
     font-family: 'Fugaz One', cursive;
     font-size: min(4.5vw, 75px);
+    color: #de5499;
     margin: 1%;
 }
 
 .star {
     font-size: smaller;
     vertical-align: text-top;
-    color: crimson;
+    color: #264143;
 }
 
 /* header */
@@ -24,7 +26,8 @@ header,
 #new-game {
     width: min(950px, 60vw);
     margin: 1% auto;
-    background-color: cornflowerblue;
+    color: #f2ebe9;
+    background-color:#264143;
     border-radius: 1rem;
     padding: 1%;
     box-sizing: border-box;
@@ -46,9 +49,9 @@ header .info,
 
 header p {
     font-size: min(2.5vw, 1rem);
-    border: 2px solid antiquewhite;
+    border: 2px solid #e99f4c;
     border-radius: 1em;
-    padding: 1.7% 4.5%;
+    padding: 1% 4.5%;
     margin: 0;
 }
 
@@ -57,23 +60,27 @@ header p {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: min(1250px, 55vw);
+    width: min(1250px, 55vw); /* CAMBIARE PIXEL */
     gap: 0.6%;
     margin: 1.5% auto;
 }
 
 img {
     width: 100%;
-    border-radius: 0.5rem;
+    border-radius: 0.6rem; /* BORDER RADIUS */
+    box-sizing: border-box;
    }
 
   .flip-box-front img {
-    border: 6px solid bisque; /* CAMBIARE COLORE e SPESSORE bordo */
-    box-sizing: border-box;
+    border: thick solid #264143;
+  }
+
+  .flip-box-back img {
+    border: thin solid #264143;
   }
 
 /* flipping card animation */
-.flip-box.cards6 { /* container */
+.flip-box.cards6 {
     width: 24.5%;
     margin-bottom: 25.1%;
   }
@@ -88,7 +95,7 @@ img {
     margin-bottom: 12.5%;
   }
 
-  .flip-box-inner { /* container for front and back of the card */
+  .flip-box-inner {
     position: relative;
     transition: transform 0.8s;
     transform-style: preserve-3d;
@@ -112,13 +119,22 @@ img {
     transform: rotateY(180deg);
     z-index: 1;
   }
-  /* end of flipping card animation */
+
+  /* disappearing card animation */
+  .flip-box {
+    transition: scale 1s ease, transform 1s ease;
+  }
+  .flip-box.disappear {
+    scale: 0;
+    transform: translateY(250px) translateX(170px);
+  }
+
 
   /* game-won section */
   .game-won,
   .reaction {
     padding: 3rem;
-    background-color: deeppink;
+    background-color: #e99f4c;
     width: fit-content;
     margin: 6% auto;
     display: none;
@@ -165,6 +181,7 @@ iframe {
   width: 480px;
   height: 288px;
   border: none;
+  margin: 1rem 0 3rem;
 }
 
 .arrow {
