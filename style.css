@@ -63,7 +63,14 @@ header p {
     width: min(1250px, 55vw); /* CAMBIARE PIXEL */
     gap: 0.6%;
     margin: 1.5% auto;
+    transition: scale 0.5s ease, transform 0.5s ease;
 }
+
+  /* disappearing board animation */
+  .board.disappear {
+    scale: 0;
+    transform: translateY(250px) translateX(170px);
+  }
 
 img {
     width: 100%;
@@ -122,7 +129,7 @@ img {
 
   /* disappearing card animation */
   .flip-box {
-    transition: scale 1s ease, transform 1s ease;
+    transition: scale 0.5s ease, transform 0.5s ease;
   }
   .flip-box.disappear {
     scale: 0;
@@ -174,14 +181,14 @@ img {
 /* reaction section */
 
 .reaction {
-  padding-bottom: 0;
+  padding: 0 3rem;
 }
 
 iframe {
   width: 480px;
   height: 288px;
   border: none;
-  margin: 1rem 0 3rem;
+  margin: 1.5rem 0;
 }
 
 .arrow {
