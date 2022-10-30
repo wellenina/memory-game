@@ -74,8 +74,12 @@ header p {
 
 img {
     width: 100%;
-    border-radius: 0.6rem; /* BORDER RADIUS */
+    border-radius: 0.6rem;
     box-sizing: border-box;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
    }
 
   .flip-box-front img {
@@ -127,7 +131,7 @@ img {
     z-index: 1;
   }
 
-  /* disappearing card animation */
+  /* disappearing animation */
   .flip-box {
     transition: scale 0.5s ease, transform 0.5s ease;
   }
@@ -154,32 +158,37 @@ img {
     margin: 0;
   }
 
-  .game-won button {
+  .game-won button,
+  #new-game button {
     font-family: 'Montserrat', sans-serif;
-    color: antiquewhite;
-    background-color: cornflowerblue;
+    color: #f2ebe9;
+    background-color: #de5499;
     padding: 10px 20px;
-    border: 2px solid white;
+    border: 2px solid #eddcd9;
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 5px 5px #666;
+  }
+
+  .game-won button {
     margin: 5% 3% 0;
     max-width: 40%;
   }
   
-  .game-won button:hover {
-   background-color: blue;
+  .game-won button:hover,
+  #new-game button:hover {
+   background-color: #c84c8a;
 }
 
-.game-won button:active {
-  background-color: blue;
+.game-won button:active,
+#new-game button:active {
+  background-color: #b2437a;
   box-shadow: 2px 2px #333;
   transform: translateX(4px) translateY(4px);
 }
 
 
 /* reaction section */
-
 .reaction {
   padding: 0 3rem;
 }
@@ -193,10 +202,10 @@ iframe {
 
 .arrow {
   font-size: 9rem;
-  color: bisque;
+  color: #de5499;
+  -webkit-text-stroke: thin #264143;
   animation: bounce 2s ease infinite;
 }
-
 @keyframes bounce {
   70% { transform:translateY(0%); }
   80% { transform:translateY(-15%); }
@@ -209,39 +218,21 @@ iframe {
 
 /* start new game section */
 #new-game button {
-    font-family: 'Montserrat', sans-serif;
-    color: antiquewhite;
-    background-color: cornflowerblue;
-    padding: 10px 20px;
-    border: 2px solid white;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 5px 5px #666;
-    margin: 0 0 2%;
+    margin: 2% 0 3%;
 }
   
-#new-game button:hover {
-   background-color: blue;
-}
-
-#new-game button:active {
-  background-color: blue;
-  box-shadow: 2px 2px #333;
-  transform: translateX(4px) translateY(4px);
-}
 
 #new-game label,
 #new-game select {
   font-size: min(2.5vw, 1rem);
   font-family: 'Montserrat', sans-serif;
-  padding: 1.5%;
+  padding: 0.8%;
 }
 
 #new-game select {
   border-radius: 8px;
-  border: 2px solid antiquewhite;
+  border: 2px solid #eddcd9;
 }
-
 
 
 /* footer */
