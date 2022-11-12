@@ -86,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsChosenId.push(cardId);
     if (cardsChosen.length ===2) {  // check if a pair of cards has been flipped
       playerTurn = false;
+      const flipBoxBack = document.querySelectorAll('.flip-box-back');
+      flipBoxBack.forEach(item => item.classList.toggle('disabled'));
       document.body.style.cursor = "wait";
       setTimeout(checkForMatch, 800) // invoke checkForMatch() function
     }
@@ -125,8 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     cardsChosen = [];
     cardsChosenId = [];
-    playerTurn = true;
-    document.body.style.cursor = "auto";
+    setTimeout(function() {
+      playerTurn = true;
+      const flipBoxBack = document.querySelectorAll('.flip-box-back');
+      flipBoxBack.forEach(item => item.classList.toggle('disabled'));
+      document.body.style.cursor = "auto";
+    }, 350);
   }
 
   // reset message and counters
@@ -144,10 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // invoked when clicking on "Start new game" button
   function startAnotherGame() {
     playerTurn = false;
+    board.style.visibility = 'hidden';
     board.replaceChildren();
     resetCounters();
     gameWon.style.display = 'none'; // hide sections
     reaction.style.display = 'none';
+    gifReaction.removeAttribute('src');
+    document.getElementById('header').scrollIntoView(); // NON FUNZIONA (?) /////////////////////////////
 
     const selectTheme = document.getElementById('theme'); // get inputs from player
     valueTheme = selectTheme.value;
@@ -155,49 +164,36 @@ document.addEventListener('DOMContentLoaded', () => {
     valueDifficulty = selectDifficulty.value; // value: 6, 12, 20
 
     newGame();
-    board.style.display = 'flex'; // display the board
+    board.style.display = 'flex';
+    setTimeout(function() {
+      board.style.visibility = 'visible' // display the board after short delay
+    }, 100);
   }
 
   newGame();
 
 
+  const reaction = document.querySelector('.reaction');
+  const gifReaction = document.getElementById('gif-reaction');
+  const playAgainBtn = document.getElementById('play-again-btn'); // button "Yeah definitely can't wait!"
+  playAgainBtn.addEventListener('click', function() {
+    displayReaction(happy);
+  });
+  const nevermoreBtn = document.getElementById('nevermore-btn'); // button "No, thanks, I'm good"
+  nevermoreBtn.addEventListener('click', function() {
+    displayReaction(sad);
+  });
+  const happy = [['dZ4Mjq65R6Vl4ByVMy', 'Ww6XqrwrLR4ZrIZLCa', 'xUPJPB7DuFNoa8mqqY', 'XurKBe1Urqn4hsxYBR', 'xTiN0ELHTRx5iKUKru', 'l0Exbi7eBQ7v0iREI', 'nYItBY4R8gaXK', 'n9ONPpvaJzlQMAsE9o', 'iurIHLBxms7UQ', 'dStGLzAv2QT4c', 'Uq44mYg7mGUQMYllVf', 'MsWfQDM0xvDNfT4MRN', 'eAAGcrAYceFgSrPk1X', '134MhjLjg4mhc4', '3oiITfc0J8nvSxOSKf'], 'YAY!<br>Please select a theme and a difficulty level:'];
+  const sad = [['Qvm2704d1Dqus', 'DfTZWmFpLx3os', 'cPKWZB2aaB3rO', 'IW6GHuaFldi1O', 'DFNd1yVyRjmF2', '9hBW9Ay4pW10Y', 'XDKsF8ZR59DFvZVxwL', 'l22ysLe54hZP0wubek', 'YLgIOmtIMUACY', 'nZipTf7i0sP8A', 'ls08tlIPCsnVS', 'Jq7y34Hgfy01y', 'eo2IEkCJ7ceNJy7cq6', '3HHxwYjiCMTvTNEib7', 'aV0TP55kop0s1NoKI2', 'JWoZAgK794t51DrxAA', 'l0HlIHz7I8Vlgvvws', 'c615QQXQ3kDn33Kwnx'], 'Oh, OK...<br>Well...<br>If you change your mind...'];
 
+  function displayReaction(mood) {
+    resetCounters();
+    gameWon.style.display = 'none';
+    reaction.style.display = 'block';
+    reaction.scrollIntoView();
 
-
-
-// la sezione reaction che va in display block/none
-const reaction = document.querySelector('.reaction');
-
-// bottone "Yeah definitely can't wait!"
-const playAgainBtn = document.getElementById('play-again-btn');
-
-// event listener con FUNZIONE CHE NON FUNZIONA
-playAgainBtn.addEventListener('click', function() {
-  displayReaction(happy);
-});
-
-// bottone "No, thanks, I'm good"
-const nevermoreBtn = document.getElementById('nevermore-btn');
-
-// event listener con FUNZIONE
-nevermoreBtn.addEventListener('click', function() {
-  displayReaction(sad);
-});
-
-// array con url delle gif e commento:
-const happy = [['dZ4Mjq65R6Vl4ByVMy', 'Ww6XqrwrLR4ZrIZLCa', 'xUPJPB7DuFNoa8mqqY', 'XurKBe1Urqn4hsxYBR', 'xTiN0ELHTRx5iKUKru', 'l0Exbi7eBQ7v0iREI', 'nYItBY4R8gaXK', 'n9ONPpvaJzlQMAsE9o', 'iurIHLBxms7UQ', 'dStGLzAv2QT4c', 'Uq44mYg7mGUQMYllVf', 'MsWfQDM0xvDNfT4MRN', 'eAAGcrAYceFgSrPk1X', '134MhjLjg4mhc4', '3oiITfc0J8nvSxOSKf'], 'YAY!<br>Please select a theme and a difficulty level:'];
-
-const sad = [['Qvm2704d1Dqus', 'DfTZWmFpLx3os', 'cPKWZB2aaB3rO', 'IW6GHuaFldi1O', 'DFNd1yVyRjmF2', '9hBW9Ay4pW10Y', 'XDKsF8ZR59DFvZVxwL', 'l22ysLe54hZP0wubek', 'YLgIOmtIMUACY', 'nZipTf7i0sP8A', 'ls08tlIPCsnVS', 'Jq7y34Hgfy01y', 'eo2IEkCJ7ceNJy7cq6', '3HHxwYjiCMTvTNEib7', 'aV0TP55kop0s1NoKI2', 'JWoZAgK794t51DrxAA', 'l0HlIHz7I8Vlgvvws', 'c615QQXQ3kDn33Kwnx'], 'Oh, OK...<br>Well...<br>If you change your mind...'];
-
-
-function displayReaction(mood) {
-  resetCounters();
-  gameWon.style.display = 'none';
-  reaction.style.display = 'block';
-  reaction.scrollIntoView();
-
-  document.getElementById('gif-reaction').setAttribute('src', `https://giphy.com/embed/${mood[0][Math.floor(Math.random()*mood[0].length)]}`)
-  document.getElementById('reaction-comment').innerHTML = mood[1]
+    gifReaction.setAttribute('src', `https://giphy.com/embed/${mood[0][Math.floor(Math.random()*mood[0].length)]}`);
+    document.getElementById('reaction-comment').innerHTML = mood[1];
   }
 
   })

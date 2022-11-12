@@ -5,6 +5,7 @@ html {
     color: #264143;
     background-color: #eddcd9;
     scroll-behavior: smooth;
+    margin: 0;
 }
 
 /* title */
@@ -94,16 +95,19 @@ img {
 .flip-box.cards6 {
     width: 24.5%;
     margin-bottom: 25.1%;
+    transform-origin: 50% 12vh;
   }
 
   .flip-box.cards12 {
     width: 16.1%;
     margin-bottom: 16.7%;
+    transform-origin: 50% 9vh;
   }
 
   .flip-box.cards20 {
     width: 11.9%;
     margin-bottom: 12.5%;
+    transform-origin: 50% 6vh;
   }
 
   .flip-box-inner {
@@ -126,6 +130,14 @@ img {
     cursor: pointer;
   }
 
+  .flip-box-back:hover {
+    filter: brightness(0.8);
+  }
+
+  .flip-box-back.disabled {
+    pointer-events: none;
+  }
+
   .flip-box-front {
     transform: rotateY(180deg);
     z-index: 1;
@@ -133,11 +145,11 @@ img {
 
   /* disappearing animation */
   .flip-box {
-    transition: scale 0.5s ease, transform 0.5s ease;
+    transition: scale 0.5s ease/*, transform 0.5s ease*/;
   }
   .flip-box.disappear {
     scale: 0;
-    transform: translateY(250px) translateX(170px);
+    /* transform: translateY(250px) translateX(170px); */
   }
 
 
@@ -236,3 +248,18 @@ iframe {
 
 
 /* footer */
+
+footer {
+  background-color: #de5499;
+  padding: 1%;
+}
+
+footer a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #264143;;
+}
+
+footer a:hover {
+  color: #f2ebe9;
+}
