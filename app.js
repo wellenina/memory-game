@@ -77,6 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (playerTurn === false) {
       return;
     }
+    if (cardsFlipped === 0) {
+      // FAI PARTIRE IL TEMPO ///////////////////////////
+    }
     this.classList.toggle('is-flipped'); // flipping card animation
     new Audio('sound/flipcard-91468.mp3').play();
     this.removeEventListener('click', flipCard);
@@ -85,10 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsChosen.push(cardArray[cardId]);
     cardsChosenId.push(cardId);
     if (cardsChosen.length ===2) {  // check if a pair of cards has been flipped
-      playerTurn = false;
-      const flipBoxBack = document.querySelectorAll('.flip-box-back');
-      flipBoxBack.forEach(item => item.classList.toggle('disabled'));
-      document.body.style.cursor = "wait";
+      setPlayerTurn(false);
       setTimeout(checkForMatch, 800) // invoke checkForMatch() function
     }
   }
@@ -105,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
       message.textContent = 'You found a match! 🥳 YAY!';
       if  (cardsWon.length === cardArray.length/2) {  // it's a match AND all the cards have been matched - GAME WON
         new Audio('sound/success-fanfare-trumpets-6185.mp3').play();
+        //////////// FERMA IL TEMPO /////////////////////
         board.classList.add('disappear');
         setTimeout(function() {
           board.style.display = 'none';
@@ -118,22 +119,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // cards[optionOneId].style.visibility = "hidden";
         // cards[optionTwoId].style.visibility = "hidden";
       }} else { // it's not a match
-      new Audio('sound/wronganswer-37702.mp3').play();
-      cards[optionOneId].addEventListener('click', flipCard);
-      cards[optionTwoId].addEventListener('click', flipCard);
-      setTimeout((cards[optionOneId].classList.toggle('is-flipped')), 700); // flipping card animation
-      setTimeout((cards[optionTwoId].classList.toggle('is-flipped')), 700); // flipping card animation
-      message.textContent = 'OH NO! 😭 Try again';
+        new Audio('sound/wronganswer-37702.mp3').play();
+        cards[optionOneId].addEventListener('click', flipCard);
+        cards[optionTwoId].addEventListener('click', flipCard);
+        message.textContent = 'OH NO! 😭 Try again';
+        setTimeout(function() {
+          cards[optionOneId].classList.toggle('is-flipped'); // flipping card animation
+          cards[optionTwoId].classList.toggle('is-flipped');
+        }, 500);
     }
     cardsChosen = [];
     cardsChosenId = [];
-    setTimeout(function() {
-      playerTurn = true;
-      const flipBoxBack = document.querySelectorAll('.flip-box-back');
-      flipBoxBack.forEach(item => item.classList.toggle('disabled'));
-      document.body.style.cursor = "auto";
-    }, 350);
+    setTimeout(function() {setPlayerTurn(true)}, 500);
   }
+
+  function setPlayerTurn(bool) {
+    playerTurn = bool;
+    const flipBoxBack = document.querySelectorAll('.flip-box-back');
+    flipBoxBack.forEach(item => item.classList.toggle('disabled'));
+    document.body.style.cursor = bool ? "auto" : "wait";
+  };
 
   // reset message and counters
   function resetCounters() {

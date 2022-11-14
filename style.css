@@ -9,7 +9,7 @@ html {
 }
 
 /* title */
-h1 {
+h1, #paused {
   font-family: 'Fugaz One', cursive;
   font-size: min(4.5vw, 75px);
   color: #de5499;
@@ -64,11 +64,11 @@ img {
 }
 
 header .btn {
-  max-width: 50px;
+  width: min(6.5vw, 3.15rem);
 }
 
 header img {
-  max-width: inherit;
+  width: inherit;
   cursor: pointer;
 }
 
@@ -78,6 +78,12 @@ header img:active {
 
 }
 
+
+/* paused game */
+#paused {
+  display: none;
+  margin: 17.5vw 0;
+}
 
 /* the board */
 .board {
