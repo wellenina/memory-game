@@ -8,6 +8,13 @@ html {
   margin: 0;
 }
 
+img {
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 /* title */
 h1, #paused {
   font-family: 'Fugaz One', cursive;
@@ -56,33 +63,41 @@ header p {
   margin: 0;
 }
 
-img {
-  user-drag: none;
-  -webkit-user-drag: none;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-header .btn {
-  width: min(6.5vw, 3.15rem);
-}
+/* pause/resume and sound on/off buttons */
 
 header img {
-  width: inherit;
+  width: min(6.5vw, 3.15rem);
   cursor: pointer;
 }
 
 header img:hover,
 header img:active {
   filter: brightness(0.8);
-
 }
 
+#pause-resume-btn {
+  visibility: hidden;
+}
 
 /* paused game */
 #paused {
   display: none;
-  margin: 17.5vw 0;
+  position: absolute;
+  margin: 0;
+  top: -3%;
+  left: -3%;
+  right: -3%;
+  bottom: -3%;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 0.6rem;
+  z-index: 2;
+  padding: 30% 0;
+}
+
+.board-container {
+  position: relative;
+  width: fit-content;
+  margin: 1.5% auto;
 }
 
 /* the board */
@@ -92,14 +107,6 @@ header img:active {
   justify-content: center;
   width: min(1250px, 55vw); /* CAMBIARE PIXEL */
   gap: 0.6%;
-  margin: 1.5% auto;
-  transition: scale 0.5s ease, transform 0.5s ease;
-}
-
-/* disappearing board animation */
-.board.disappear {
-  scale: 0;
-  transform: translateY(250px) translateX(170px);
 }
 
 .board img {
@@ -160,20 +167,20 @@ header img:active {
   filter: brightness(0.8);
 }
 
-.flip-box-back.disabled {
-  pointer-events: none;
-}
-
 .flip-box-front {
   transform: rotateY(180deg);
   z-index: 1;
 }
 
+.disabled {
+  pointer-events: none;
+}
+
 /* disappearing animation */
-.flip-box {
+.flip-box, .board {
   transition: scale 0.5s ease/*, transform 0.5s ease*/;
 }
-.flip-box.disappear {
+.flip-box.disappear, .board.disappear {
   scale: 0;
   /* transform: translateY(250px) translateX(170px); */
 }

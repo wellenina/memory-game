@@ -12,16 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let cardsWon = [];
   let valueTheme = 'kitten'; // default theme
   let valueDifficulty = 6; // default difficulty level (easy)
-  let playerTurn = false;
   const startNewGameBtn = document.getElementById('new-game-btn');
   startNewGameBtn.addEventListener('click', startAnotherGame);
+  let gameOver = false;
   
   // start new game
   function newGame() {
     cardArray = selectCards(valueTheme, valueDifficulty);
     const imgBackPath = findImgBack(valueTheme);
     createBoard(cardArray, imgBackPath);
-    playerTurn = true;
   }
 
   // return paths to selected cards, based on theme and difficulty
@@ -72,13 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  //flip a card
+  // flip a card - invoked when clicking on a card
   function flipCard() {
-    if (playerTurn === false) {
-      return;
-    }
-    if (cardsFlipped === 0) {
-      // FAI PARTIRE IL TEMPO ///////////////////////////
+    if (cardsFlipped === 0) { // start stopwatch when the first card is clicked
+      stopwatch = setInterval(incrementTime, 1000);
+      pauseResumeBtn.style.visibility = 'visible';
+      paused = false;
     }
     this.classList.toggle('is-flipped'); // flipping card animation
     new Audio('sound/flipcard-91468.mp3').play();
@@ -88,12 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsChosen.push(cardArray[cardId]);
     cardsChosenId.push(cardId);
     if (cardsChosen.length ===2) {  // check if a pair of cards has been flipped
-      setPlayerTurn(false);
-      setTimeout(checkForMatch, 800) // invoke checkForMatch() function
+      disableClick(true);
+      setTimeout(checkForMatch, 1150) // invoke checkForMatch() function
     }
   }
   
-  //check for matches
+  // check for matches - invoked by flipCard() when 2 cards have been flipped
   function checkForMatch() {
     const cards = document.querySelectorAll('div.flip-box');
     const optionOneId = cardsChosenId[0];
@@ -105,7 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
       message.textContent = 'You found a match! 🥳 YAY!';
       if  (cardsWon.length === cardArray.length/2) {  // it's a match AND all the cards have been matched - GAME WON
         new Audio('sound/success-fanfare-trumpets-6185.mp3').play();
-        //////////// FERMA IL TEMPO /////////////////////
+        clearInterval(stopwatch); // stop the time
+        pauseResumeBtn.style.visibility = 'hidden';
+        gameOver = true;
         board.classList.add('disappear');
         setTimeout(function() {
           board.style.display = 'none';
@@ -123,25 +123,25 @@ document.addEventListener('DOMContentLoaded', () => {
         cards[optionOneId].addEventListener('click', flipCard);
         cards[optionTwoId].addEventListener('click', flipCard);
         message.textContent = 'OH NO! 😭 Try again';
-        setTimeout(function() {
-          cards[optionOneId].classList.toggle('is-flipped'); // flipping card animation
-          cards[optionTwoId].classList.toggle('is-flipped');
-        }, 500);
+        cards[optionOneId].classList.toggle('is-flipped'); // flipping card animation
+        cards[optionTwoId].classList.toggle('is-flipped');
     }
     cardsChosen = [];
     cardsChosenId = [];
-    setTimeout(function() {setPlayerTurn(true)}, 500);
+    setTimeout(function() {disableClick(false)}, 500);
   }
 
-  function setPlayerTurn(bool) {
-    playerTurn = bool;
-    const flipBoxBack = document.querySelectorAll('.flip-box-back');
-    flipBoxBack.forEach(item => item.classList.toggle('disabled'));
-    document.body.style.cursor = bool ? "auto" : "wait";
+  function disableClick(bool) {
+    document.body.classList.toggle('disabled');
+    document.documentElement.style.cursor = bool ? "wait" : "auto";
   };
-
-  // reset message and counters
-  function resetCounters() {
+  
+  // invoked when clicking on "Start new game" button
+  function startAnotherGame() {
+    board.style.visibility = 'hidden';
+    board.replaceChildren();
+  
+    // reset message and counters
     message.textContent = 'Let\’s play!';
     matches.textContent = 0;
     cardsWon = [];
@@ -149,27 +149,26 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsFlipped = 0;
     cardsChosen = [];
     cardsChosenId = [];
-    board.classList.remove('disappear');
-  }
+    resetStopwatch();
   
-  // invoked when clicking on "Start new game" button
-  function startAnotherGame() {
-    playerTurn = false;
-    board.style.visibility = 'hidden';
-    board.replaceChildren();
-    resetCounters();
-    gameWon.style.display = 'none'; // hide sections
-    reaction.style.display = 'none';
-    gifReaction.removeAttribute('src');
-    document.getElementById('header').scrollIntoView(); // NON FUNZIONA (?) /////////////////////////////
-
-    const selectTheme = document.getElementById('theme'); // get inputs from player
+    if (gameOver) {
+      gameWon.style.display = 'none';
+      reaction.style.display = 'none';
+      gifReaction.removeAttribute('src');
+      board.classList.remove('disappear');
+      board.style.display = 'flex';
+      gameOver = false;
+    }
+  
+    // get inputs from player
+    const selectTheme = document.getElementById('theme');
     valueTheme = selectTheme.value;
     const selectDifficulty = document.getElementById('difficulty');
     valueDifficulty = selectDifficulty.value; // value: 6, 12, 20
-
+  
     newGame();
-    board.style.display = 'flex';
+    document.getElementById('header').scrollIntoView(); // NON FUNZIONA (?) /////////////////////////////
+  
     setTimeout(function() {
       board.style.visibility = 'visible' // display the board after short delay
     }, 100);
@@ -177,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   newGame();
 
-
+  // display a silly reaction gif after a game won
   const reaction = document.querySelector('.reaction');
   const gifReaction = document.getElementById('gif-reaction');
   const playAgainBtn = document.getElementById('play-again-btn'); // button "Yeah definitely can't wait!"
@@ -192,13 +191,76 @@ document.addEventListener('DOMContentLoaded', () => {
   const sad = [['Qvm2704d1Dqus', 'DfTZWmFpLx3os', 'cPKWZB2aaB3rO', 'IW6GHuaFldi1O', 'DFNd1yVyRjmF2', '9hBW9Ay4pW10Y', 'XDKsF8ZR59DFvZVxwL', 'l22ysLe54hZP0wubek', 'YLgIOmtIMUACY', 'nZipTf7i0sP8A', 'ls08tlIPCsnVS', 'Jq7y34Hgfy01y', 'eo2IEkCJ7ceNJy7cq6', '3HHxwYjiCMTvTNEib7', 'aV0TP55kop0s1NoKI2', 'JWoZAgK794t51DrxAA', 'l0HlIHz7I8Vlgvvws', 'c615QQXQ3kDn33Kwnx'], 'Oh, OK...<br>Well...<br>If you change your mind...'];
 
   function displayReaction(mood) {
-    resetCounters();
+    gifReaction.setAttribute('src', `https://giphy.com/embed/${mood[0][Math.floor(Math.random()*mood[0].length)]}`);
+    document.getElementById('reaction-comment').innerHTML = mood[1];
+
     gameWon.style.display = 'none';
     reaction.style.display = 'block';
     reaction.scrollIntoView();
-
-    gifReaction.setAttribute('src', `https://giphy.com/embed/${mood[0][Math.floor(Math.random()*mood[0].length)]}`);
-    document.getElementById('reaction-comment').innerHTML = mood[1];
   }
+
+
+  // stopwatch
+
+  // minutes and seconds
+  const minutesDisplay = document.getElementById("minutes");
+  const secondsDisplay = document.getElementById("seconds");
+  let minutes = 0;
+  let seconds = 0;
+
+  function incrementTime() {
+    if (seconds === 59) {
+      minutes < 9 ? minutesDisplay.textContent = '0' + ++minutes : minutesDisplay.textContent = ++minutes;
+      seconds = 0;
+      secondsDisplay.textContent = '00';
+    } else {
+      seconds < 9 ? secondsDisplay.textContent = '0' + ++seconds : secondsDisplay.textContent = ++seconds;
+  }};
+
+  const pauseResumeBtn = document.getElementById('pause-resume-btn');
+  pauseResumeBtn.addEventListener('click', pauseResumeStopwatch);
+
+  let stopwatch;
+  let paused;
+  const pausedGameOverlay = document.getElementById('paused');
+
+  function pauseResumeStopwatch() {
+    if (paused) { // resume
+      stopwatch = setInterval(incrementTime, 1000);
+      paused = false;
+      pauseResumeBtn.setAttribute('src', 'images/pause.png');
+      pauseResumeBtn.setAttribute('alt', 'Pause game button');
+      pausedGameOverlay.style.display = 'none';
+    } else { // pause
+      clearInterval(stopwatch);
+      paused = true;
+      pauseResumeBtn.setAttribute('src', 'images/play.png');
+      pauseResumeBtn.setAttribute('alt', 'Resume game button');
+      pausedGameOverlay.style.display = 'block';
+  }};
+
+  function resetStopwatch() {
+    if (paused === undefined) {
+      return;
+    }
+
+    if (!gameOver) {
+      pauseResumeBtn.style.visibility = 'hidden';
+      if (paused) {
+        pauseResumeBtn.setAttribute('src', 'images/pause.png');
+        pauseResumeBtn.setAttribute('alt', 'Pause game button');
+        pausedGameOverlay.style.display = 'none';
+      } else {
+        clearInterval(stopwatch);
+      }
+    }
+
+    // reset time to 00:00
+    minutes = 0;
+    seconds = 0;
+    minutesDisplay.textContent = '00';
+    secondsDisplay.textContent = '00';
+    paused = undefined;
+  };
 
   })
