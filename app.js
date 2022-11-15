@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let cardArray = [];
   const message = document.querySelector('#message');
   const matches = document.querySelector('#matches');
-  const flipped = document.querySelector('#flipped');
-  let cardsFlipped = 0;
+  const movesDisplay = document.querySelector('#moves');
+  let moves = 0;
   const gameWon = document.querySelector('.game-won');
   let cardsChosen = [];
   let cardsChosenId = [];
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // flip a card - invoked when clicking on a card
   function flipCard() {
-    if (cardsFlipped === 0) { // start stopwatch when the first card is clicked
+    if (paused === undefined) { // start stopwatch when the first card is clicked
       stopwatch = setInterval(incrementTime, 1000);
       pauseResumeBtn.style.visibility = 'visible';
       paused = false;
@@ -81,18 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
     this.classList.toggle('is-flipped'); // flipping card animation
     new Audio('sound/flipcard-91468.mp3').play();
     this.removeEventListener('click', flipCard);
-    flipped.textContent = ++cardsFlipped;
     let cardId = this.getAttribute('data-id');
     cardsChosen.push(cardArray[cardId]);
     cardsChosenId.push(cardId);
-    if (cardsChosen.length ===2) {  // check if a pair of cards has been flipped
+    if (cardsChosen.length === 2) {  // check if a pair of cards has been flipped
       disableClick(true);
-      setTimeout(checkForMatch, 1150) // invoke checkForMatch() function
+      setTimeout(checkForMatch, 1050) // invoke checkForMatch() function
     }
   }
   
   // check for matches - invoked by flipCard() when 2 cards have been flipped
   function checkForMatch() {
+    movesDisplay.textContent = ++moves;
     const cards = document.querySelectorAll('div.flip-box');
     const optionOneId = cardsChosenId[0];
     const optionTwoId = cardsChosenId[1];
@@ -145,8 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
     message.textContent = 'Let\’s play!';
     matches.textContent = 0;
     cardsWon = [];
-    flipped.textContent = 0;
-    cardsFlipped = 0;
+    movesDisplay.textContent = 0;
+    moves = 0;
     cardsChosen = [];
     cardsChosenId = [];
     resetStopwatch();
