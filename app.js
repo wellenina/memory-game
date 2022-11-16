@@ -15,6 +15,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const startNewGameBtn = document.getElementById('new-game-btn');
   startNewGameBtn.addEventListener('click', startAnotherGame);
   let gameOver = false;
+
+  let mute = false;
+  const soundOnOffBtn = document.getElementById('sound-on-off-btn');
+  soundOnOffBtn.addEventListener('click', soundOnOff);
+
+  function soundOnOff() {
+    if (mute) {
+      soundOnOffBtn.setAttribute('src', 'images/mute.png');
+      soundOnOffBtn.setAttribute('alt', 'Mute button');
+      mute = false;
+    } else {
+      soundOnOffBtn.setAttribute('src', 'images/soundon.png');
+      soundOnOffBtn.setAttribute('alt', 'Sound on button');
+      mute = true;
+    }
+    }
   
   // start new game
   function newGame() {
@@ -79,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
       paused = false;
     }
     this.classList.toggle('is-flipped'); // flipping card animation
-    new Audio('sound/flipcard-91468.mp3').play();
+    if (!mute) {new Audio('sound/flipcard-91468.mp3').play()};
     this.removeEventListener('click', flipCard);
     let cardId = this.getAttribute('data-id');
     cardsChosen.push(cardArray[cardId]);
@@ -102,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
       matches.textContent = cardsWon.length;
       message.textContent = 'You found a match! 🥳 YAY!';
       if  (cardsWon.length === cardArray.length/2) {  // it's a match AND all the cards have been matched - GAME WON
-        new Audio('sound/success-fanfare-trumpets-6185.mp3').play();
+        if (!mute) {new Audio('sound/success-fanfare-trumpets-6185.mp3').play()};
         clearInterval(stopwatch); // stop the time
         pauseResumeBtn.style.visibility = 'hidden';
         gameOver = true;
@@ -113,13 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
           gameWon.scrollIntoView();
         }, 800);
       } else { // it's a match BUT the game is not over
-        new Audio('sound/decidemp3-14575.mp3').play();
+        if (!mute) {new Audio('sound/decidemp3-14575.mp3').play()};
         cards[optionOneId].classList.add('disappear');
         cards[optionTwoId].classList.add('disappear');
         // cards[optionOneId].style.visibility = "hidden";
         // cards[optionTwoId].style.visibility = "hidden";
       }} else { // it's not a match
-        new Audio('sound/wronganswer-37702.mp3').play();
+        if (!mute) {new Audio('sound/wronganswer-37702.mp3').play()};
         cards[optionOneId].addEventListener('click', flipCard);
         cards[optionTwoId].addEventListener('click', flipCard);
         message.textContent = 'OH NO! 😭 Try again';
@@ -134,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function disableClick(bool) {
     document.body.classList.toggle('disabled');
     document.documentElement.style.cursor = bool ? "wait" : "auto";
-  };
+  }
   
   // invoked when clicking on "Start new game" button
   function startAnotherGame() {
@@ -215,7 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
       secondsDisplay.textContent = '00';
     } else {
       seconds < 9 ? secondsDisplay.textContent = '0' + ++seconds : secondsDisplay.textContent = ++seconds;
-  }};
+    }
+  }
 
   const pauseResumeBtn = document.getElementById('pause-resume-btn');
   pauseResumeBtn.addEventListener('click', pauseResumeStopwatch);
@@ -237,7 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
       pauseResumeBtn.setAttribute('src', 'images/play.png');
       pauseResumeBtn.setAttribute('alt', 'Resume game button');
       pausedGameOverlay.style.display = 'block';
-  }};
+    }
+  }
 
   function resetStopwatch() {
     if (paused === undefined) {
@@ -261,6 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
     minutesDisplay.textContent = '00';
     secondsDisplay.textContent = '00';
     paused = undefined;
-  };
+  }
 
   })
