@@ -15,22 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const startNewGameBtn = document.getElementById('new-game-btn');
   startNewGameBtn.addEventListener('click', startAnotherGame);
   let gameOver = false;
-
-  let mute = false;
-  const soundOnOffBtn = document.getElementById('sound-on-off-btn');
-  soundOnOffBtn.addEventListener('click', soundOnOff);
-
-  function soundOnOff() {
-    if (mute) {
-      soundOnOffBtn.setAttribute('src', 'images/mute.png');
-      soundOnOffBtn.setAttribute('alt', 'Mute button');
-      mute = false;
-    } else {
-      soundOnOffBtn.setAttribute('src', 'images/soundon.png');
-      soundOnOffBtn.setAttribute('alt', 'Sound on button');
-      mute = true;
-    }
-    }
   
   // start new game
   function newGame() {
@@ -43,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function selectCards(theme, difficulty) {
     let allCards = [];
     for (let i = 1; i <= 25; i++) {
-      allCards.push('images/' + theme + i + '.jpg'); // path to all the 25 card options
+      allCards.push(`images/${theme+i}.jpg`); // path to all the 25 card options
     }
     allCards.sort(() => 0.5 - Math.random()); // shuffle cards
     allCards.splice(difficulty); // keep the first 6, 12 or 20 cards
@@ -52,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function findImgBack(theme) { // return path to image of the back of the cards
-    return 'images/' + theme + '-back.jpg';
+    return `images/${theme}-back.jpg`;
   }
   
   //create the board
@@ -95,14 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
       paused = false;
     }
     this.classList.toggle('is-flipped'); // flipping card animation
-    if (!mute) {new Audio('sound/flipcard-91468.mp3').play()};
     this.removeEventListener('click', flipCard);
+    playSound(flipping);
     let cardId = this.getAttribute('data-id');
     cardsChosen.push(cardArray[cardId]);
     cardsChosenId.push(cardId);
     if (cardsChosen.length === 2) {  // check if a pair of cards has been flipped
       disableClick(true);
-      setTimeout(checkForMatch, 1050) // invoke checkForMatch() function
+      setTimeout(checkForMatch, 1000); // invoke checkForMatch() function
     }
   }
   
@@ -118,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
       matches.textContent = cardsWon.length;
       message.textContent = 'You found a match! 🥳 YAY!';
       if  (cardsWon.length === cardArray.length/2) {  // it's a match AND all the cards have been matched - GAME WON
-        if (!mute) {new Audio('sound/success-fanfare-trumpets-6185.mp3').play()};
+        playSound(success);
         clearInterval(stopwatch); // stop the time
         pauseResumeBtn.style.visibility = 'hidden';
         gameOver = true;
@@ -129,13 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
           gameWon.scrollIntoView();
         }, 800);
       } else { // it's a match BUT the game is not over
-        if (!mute) {new Audio('sound/decidemp3-14575.mp3').play()};
+        playSound(rightAnswer);
         cards[optionOneId].classList.add('disappear');
         cards[optionTwoId].classList.add('disappear');
         // cards[optionOneId].style.visibility = "hidden";
         // cards[optionTwoId].style.visibility = "hidden";
       }} else { // it's not a match
-        if (!mute) {new Audio('sound/wronganswer-37702.mp3').play()};
+        playSound(wrongAnswer);
         cards[optionOneId].addEventListener('click', flipCard);
         cards[optionTwoId].addEventListener('click', flipCard);
         message.textContent = 'OH NO! 😭 Try again';
@@ -183,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     valueDifficulty = selectDifficulty.value; // value: 6, 12, 20
   
     newGame();
-    document.getElementById('header').scrollIntoView(); // NON FUNZIONA (?) /////////////////////////////
+    document.getElementById('header').scrollIntoView();
   
     setTimeout(function() {
       board.style.visibility = 'visible' // display the board after short delay
@@ -226,11 +210,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function incrementTime() {
     if (seconds === 59) {
-      minutes < 9 ? minutesDisplay.textContent = '0' + ++minutes : minutesDisplay.textContent = ++minutes;
+      minutes < 9 ? minutesDisplay.textContent = `0${++minutes}` : minutesDisplay.textContent = ++minutes;
       seconds = 0;
       secondsDisplay.textContent = '00';
     } else {
-      seconds < 9 ? secondsDisplay.textContent = '0' + ++seconds : secondsDisplay.textContent = ++seconds;
+      seconds < 9 ? secondsDisplay.textContent = `0${++seconds}` : secondsDisplay.textContent = ++seconds;
     }
   }
 
@@ -279,6 +263,35 @@ document.addEventListener('DOMContentLoaded', () => {
     minutesDisplay.textContent = '00';
     secondsDisplay.textContent = '00';
     paused = undefined;
+  }
+
+  // sound off/sound on button
+  let mute = false;
+  const soundOnOffBtn = document.getElementById('sound-on-off-btn');
+  soundOnOffBtn.addEventListener('click', soundOnOff);
+
+  function soundOnOff() {
+    if (mute) {
+      soundOnOffBtn.setAttribute('src', 'images/mute.png');
+      soundOnOffBtn.setAttribute('alt', 'Mute button');
+      mute = false;
+    } else {
+      soundOnOffBtn.setAttribute('src', 'images/soundon.png');
+      soundOnOffBtn.setAttribute('alt', 'Sound on button');
+      mute = true;
+    }
+  }
+
+  // sound effects
+  const flipping = new Audio('sound/flipcard-91468.mp3');
+  const rightAnswer = new Audio('sound/decidemp3-14575.mp3');
+  const wrongAnswer = new Audio('sound/wronganswer-37702.mp3');
+  const success = new Audio('sound/success-fanfare-trumpets-6185.mp3');
+
+  function playSound(sound) {
+    if (!mute) {
+      sound.play();
+    }
   }
 
   })
