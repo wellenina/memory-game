@@ -241,6 +241,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  document.addEventListener("keydown", event => {
+    if (event.code === 'Escape' || event.code === 'Space') {
+      pauseResumeStopwatch();
+    }
+  });
+
   function resetStopwatch() {
     if (paused === undefined) {
       return;
