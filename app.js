@@ -139,7 +139,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // invoked when clicking on "Start new game" button
   function startAnotherGame() {
     board.style.visibility = 'hidden';
-    board.replaceChildren();
+
+    try {
+      board.replaceChildren(); // replaceChildren() is not supported by browsers older than 2020
+    } catch {
+      while (board.firstChild) {
+        board.removeChild(board.firstChild);
+      }
+    }
   
     // reset message and counters
     message.textContent = 'Let\’s play!';
@@ -243,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener("keydown", event => {
     if (event.code === 'Escape' || event.code === 'Space') {
+      event.preventDefault();
       pauseResumeStopwatch();
     }
   });

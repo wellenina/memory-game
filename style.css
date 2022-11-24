@@ -83,7 +83,7 @@ header img:active {
 #paused {
   display: none;
   position: absolute;
-  margin: 0;
+  margin: 0 auto;
   top: -3%;
   left: -3%;
   right: -3%;
@@ -97,6 +97,7 @@ header img:active {
 .board-container {
   position: relative;
   width: fit-content;
+  width: -moz-fit-content;
   margin: 1.5% auto;
 }
 
@@ -106,7 +107,12 @@ header img:active {
   flex-wrap: wrap;
   justify-content: center;
   width: min(1250px, 55vw); /* CAMBIARE PIXEL */
-  gap: 0.6%;
+  /* gap: 0.6%; the gap property for Flexbox is not supported by older browsers */
+  margin: 0 auto;
+}
+
+.board > * + * {
+  margin-left: 0.5%;
 }
 
 .board img {
@@ -178,11 +184,10 @@ header img:active {
 
 /* disappearing animation */
 .flip-box, .board {
-  transition: scale 0.5s ease/*, transform 0.5s ease*/;
+  transition: transform 0.5s ease;
 }
 .flip-box.disappear, .board.disappear {
-  scale: 0;
-  /* transform: translateY(250px) translateX(170px); */
+  transform: scale(0);
 }
 
 
@@ -192,6 +197,7 @@ header img:active {
   padding: 3rem;
   background-color: #e99f4c;
   width: fit-content;
+  width: -moz-fit-content;
   margin: 6% auto;
   display: none;
   border-radius: 1rem;
