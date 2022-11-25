@@ -41,6 +41,12 @@ header,
   box-sizing: border-box;
 }
 
+header {
+  position: sticky;
+  top: 1rem;
+  z-index: 3;
+}
+
 header h2,
 #new-game button {
   font-size: min(3vw, 32px);
@@ -61,6 +67,11 @@ header p {
   border-radius: 1em;
   padding: 1% 4.5%;
   margin: 0;
+}
+
+.time {
+  min-width: 5.8em;
+  text-align: left;
 }
 
 /* pause/resume and sound on/off buttons */
