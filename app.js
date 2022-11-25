@@ -10,41 +10,39 @@ document.addEventListener('DOMContentLoaded', () => {
   let cardsChosen = [];
   let cardsChosenId = [];
   let cardsWon = [];
-  let valueTheme = 'kitten'; // default theme
-  let valueDifficulty = 6; // default difficulty level (easy)
+  let theme = 'kitten'; // default theme
+  let difficulty = 6; // default difficulty level (easy)
   const startNewGameBtn = document.getElementById('new-game-btn');
   startNewGameBtn.addEventListener('click', startAnotherGame);
-  let gameOver = false;
+  let isGameOver = false;
   
-  // start new game
+
   function newGame() {
-    cardArray = selectCards(valueTheme, valueDifficulty);
-    const imgBackPath = findImgBack(valueTheme);
+    cardArray = createCardDeck(theme, difficulty);
+    const imgBackPath = getImgBackPath(theme);
     createBoard(cardArray, imgBackPath);
   }
 
-  // return paths to selected cards, based on theme and difficulty
-  function selectCards(theme, difficulty) {
+
+  function createCardDeck(theme, difficulty) {
     let allCards = [];
     for (let i = 1; i <= 25; i++) {
       allCards.push(`images/${theme+i}.jpg`); // path to all the 25 card options
     }
-    allCards.sort(() => 0.5 - Math.random()); // shuffle cards
-    allCards.splice(difficulty); // keep the first 6, 12 or 20 cards
-    allCards = allCards.concat(allCards); // double cards
-    return allCards.sort(() => 0.5 - Math.random()); // re-shuffle cards
+    allCards.sort(() => 0.5 - Math.random()).splice(difficulty);
+    return allCards.concat(allCards).sort(() => 0.5 - Math.random());
   }
 
-  function findImgBack(theme) { // return path to image of the back of the cards
+  function getImgBackPath(theme) {
     return `images/${theme}-back.jpg`;
   }
   
-  //create the board
+
   function createBoard(cardArray, imgBackPath) {
 
     for (let i = 0; i < cardArray.length; i++) {
       const flipBox = document.createElement('div');
-      flipBox.setAttribute('class', `flip-box cards${valueDifficulty}`);
+      flipBox.setAttribute('class', `flip-box cards${difficulty}`);
       flipBox.setAttribute('data-id', i); // data-id attribute = item index in cardArray
       flipBox.addEventListener('click', flipCard);
       board.appendChild(flipBox);
@@ -71,27 +69,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // flip a card - invoked when clicking on a card
-  function flipCard() {
-    if (paused === undefined) { // start stopwatch when the first card is clicked
+
+  function flipCard() { // invoked when clicking on a card
+    if (isPaused === undefined) { // start stopwatch when the first card is clicked
       stopwatch = setInterval(incrementTime, 1000);
       pauseResumeBtn.style.visibility = 'visible';
-      paused = false;
+      isPaused = false;
     }
     this.classList.toggle('is-flipped'); // flipping card animation
     this.removeEventListener('click', flipCard);
     playSound(flipping);
-    let cardId = this.getAttribute('data-id');
+    const cardId = this.getAttribute('data-id');
     cardsChosen.push(cardArray[cardId]);
     cardsChosenId.push(cardId);
     if (cardsChosen.length === 2) {  // check if a pair of cards has been flipped
       disableClick(true);
-      setTimeout(checkForMatch, 1000); // invoke checkForMatch() function
+      setTimeout(checkForMatch, 1000);
     }
   }
   
-  // check for matches - invoked by flipCard() when 2 cards have been flipped
-  function checkForMatch() {
+
+  function checkForMatch() {  // invoked by flipCard() when 2 cards have been flipped
     movesDisplay.textContent = ++moves;
     const cards = document.querySelectorAll('div.flip-box');
     const optionOneId = cardsChosenId[0];
@@ -101,11 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
       cardsWon.push(cardsChosen);
       matches.textContent = cardsWon.length;
       message.textContent = 'You found a match! 🥳 YAY!';
-      if  (cardsWon.length === cardArray.length/2) {  // it's a match AND all the cards have been matched - GAME WON
+      if  (cardsWon.length === cardArray.length/2) {  // it's a match AND all the cards have been matched
         playSound(success);
-        clearInterval(stopwatch); // stop the time
+        clearInterval(stopwatch);
         pauseResumeBtn.style.visibility = 'hidden';
-        gameOver = true;
+        isGameOver = true;
         board.classList.add('disappear');
         setTimeout(function() {
           board.style.display = 'none';
@@ -116,8 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         playSound(rightAnswer);
         cards[optionOneId].classList.add('disappear');
         cards[optionTwoId].classList.add('disappear');
-        // cards[optionOneId].style.visibility = "hidden";
-        // cards[optionTwoId].style.visibility = "hidden";
       }} else { // it's not a match
         playSound(wrongAnswer);
         cards[optionOneId].addEventListener('click', flipCard);
@@ -136,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.style.cursor = bool ? "wait" : "auto";
   }
   
-  // invoked when clicking on "Start new game" button
-  function startAnotherGame() {
+
+  function startAnotherGame() {  // invoked when clicking on "Start new game" button
     board.style.visibility = 'hidden';
 
     try {
@@ -158,26 +154,24 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsChosenId = [];
     resetStopwatch();
   
-    if (gameOver) {
+    if (isGameOver) {
       gameWon.style.display = 'none';
       reaction.style.display = 'none';
       gifReaction.removeAttribute('src');
       board.classList.remove('disappear');
       board.style.display = 'flex';
-      gameOver = false;
+      isGameOver = false;
     }
   
     // get inputs from player
-    const selectTheme = document.getElementById('theme');
-    valueTheme = selectTheme.value;
-    const selectDifficulty = document.getElementById('difficulty');
-    valueDifficulty = selectDifficulty.value; // value: 6, 12, 20
+    theme = document.getElementById('theme').value;
+    difficulty = document.getElementById('difficulty').value; // 6, 12, 20
   
     newGame();
     document.getElementById('header').scrollIntoView();
   
     setTimeout(function() {
-      board.style.visibility = 'visible' // display the board after short delay
+      board.style.visibility = 'visible';
     }, 100);
   }
 
@@ -209,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // stopwatch
 
-  // minutes and seconds
   const minutesDisplay = document.getElementById("minutes");
   const secondsDisplay = document.getElementById("seconds");
   let minutes = 0;
@@ -229,19 +222,19 @@ document.addEventListener('DOMContentLoaded', () => {
   pauseResumeBtn.addEventListener('click', pauseResumeStopwatch);
 
   let stopwatch;
-  let paused;
+  let isPaused;
   const pausedGameOverlay = document.getElementById('paused');
 
   function pauseResumeStopwatch() {
-    if (paused) { // resume
+    if (isPaused) { // resume
       stopwatch = setInterval(incrementTime, 1000);
-      paused = false;
+      isPaused = false;
       pauseResumeBtn.setAttribute('src', 'images/pause.png');
       pauseResumeBtn.setAttribute('alt', 'Pause game button');
       pausedGameOverlay.style.display = 'none';
     } else { // pause
       clearInterval(stopwatch);
-      paused = true;
+      isPaused = true;
       pauseResumeBtn.setAttribute('src', 'images/play.png');
       pauseResumeBtn.setAttribute('alt', 'Resume game button');
       pausedGameOverlay.style.display = 'block';
@@ -256,13 +249,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function resetStopwatch() {
-    if (paused === undefined) {
+    if (isPaused === undefined) {
       return;
     }
 
-    if (!gameOver) {
+    if (!isGameOver) {
       pauseResumeBtn.style.visibility = 'hidden';
-      if (paused) {
+      if (isPaused) {
         pauseResumeBtn.setAttribute('src', 'images/pause.png');
         pauseResumeBtn.setAttribute('alt', 'Pause game button');
         pausedGameOverlay.style.display = 'none';
@@ -276,23 +269,23 @@ document.addEventListener('DOMContentLoaded', () => {
     seconds = 0;
     minutesDisplay.textContent = '00';
     secondsDisplay.textContent = '00';
-    paused = undefined;
+    isPaused = undefined;
   }
 
   // sound off/sound on button
-  let mute = false;
+  let isMuted = false;
   const soundOnOffBtn = document.getElementById('sound-on-off-btn');
   soundOnOffBtn.addEventListener('click', soundOnOff);
 
   function soundOnOff() {
-    if (mute) {
+    if (isMuted) {
       soundOnOffBtn.setAttribute('src', 'images/mute.png');
       soundOnOffBtn.setAttribute('alt', 'Mute button');
-      mute = false;
+      isMuted = false;
     } else {
       soundOnOffBtn.setAttribute('src', 'images/soundon.png');
       soundOnOffBtn.setAttribute('alt', 'Sound on button');
-      mute = true;
+      isMuted = true;
     }
   }
 
@@ -303,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const success = new Audio('sound/success-fanfare-trumpets-6185.mp3');
 
   function playSound(sound) {
-    if (!mute) {
+    if (!isMuted) {
       sound.play();
     }
   }
